@@ -1,7 +1,10 @@
-﻿namespace EmployeeMVC.Models.Domain
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace EmployeeMVC.Models.Domain
 {
     public class Employee
     {
+      
         public Guid Id { get; set; } 
 
         public string Name { get; set; } = null!;

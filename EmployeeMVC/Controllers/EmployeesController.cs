@@ -28,7 +28,7 @@ namespace EmployeeMVC.Controllers
         {
             var employee = new Employee()
             {
-                Id = Guid.NewGuid(),
+               
                 Name = addEmployeeRequest.Name,
                 Email = addEmployeeRequest.Email,
                 Phone = addEmployeeRequest.Phone,
@@ -42,9 +42,6 @@ namespace EmployeeMVC.Controllers
             return RedirectToAction("Add");
         }
 
-        private object NewGuid()
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }
