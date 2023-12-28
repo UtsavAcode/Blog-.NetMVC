@@ -2,6 +2,7 @@
 using EmployeeMVC.Models;
 using EmployeeMVC.Models.Domain;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace EmployeeMVC.Controllers
 {
@@ -18,13 +19,21 @@ namespace EmployeeMVC.Controllers
         public ApplicationDbContext ApplicationDbContext1 => applicationDbContext;
 
         [HttpGet]
+        public async Task<IActionResult> Index()
+        {
+
+            var employees = await applicationDbContext.Employees.ToListAsync();
+            return View (employees);
+        }
+
+        [HttpGet]
         public IActionResult Add()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(AddEmployeeModel addEmployeeRequest)
+        public async Task<IActionResult> Add(AddEmployeeModel addEmployeeRequest) 
         {
             var employee = new Employee()
             {
