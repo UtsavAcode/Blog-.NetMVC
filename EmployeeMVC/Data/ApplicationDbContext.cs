@@ -11,5 +11,16 @@ namespace EmployeeMVC.Data
         }
 
         public DbSet<Employee>Employees{get; set;}
+
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // Specify the database column type for the "Id" property
+            modelBuilder.Entity<Employee>()
+                .Property(e => e.Id)
+                .HasColumnType("uuid");
+        }
     }
 }

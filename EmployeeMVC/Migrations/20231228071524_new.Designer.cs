@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EmployeeMVC.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231227070652_this")]
-    partial class @this
+    [Migration("20231228071524_new")]
+    partial class @new
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,14 +26,9 @@ namespace EmployeeMVC.Migrations
 
             modelBuilder.Entity("EmployeeMVC.Models.Domain.Employee", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Department")
                         .IsRequired()
