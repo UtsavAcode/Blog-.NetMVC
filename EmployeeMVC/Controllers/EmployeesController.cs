@@ -48,9 +48,34 @@ namespace EmployeeMVC.Controllers
 
             await applicationDbContext.Employees.AddAsync(employee);
             await applicationDbContext.SaveChangesAsync();
-            return RedirectToAction("Add");
+            return RedirectToAction("Index");
         }
 
-        
+
+        [HttpGet]
+        public async Task<IActionResult> personView(Guid Id)
+        {
+           var employee = await applicationDbContext.Employees.FirstOrDefaultAsync(x => x.Id == Id);
+
+            if (employee != null)
+            {
+                var viewModel = new UpdateEmployeeModel()
+                {
+                    Id = employee.Id,
+                    Name = employee.Name,
+                    Email = employee.Email,
+                    Phone = employee.Phone,
+                    Department = employee.Department,
+                    Salary = employee.Salary,
+
+                };
+
+                return View(viewModel);
+
+
+            }
+            return RedirectToAction("Index");
+
+        }
     }
 }
