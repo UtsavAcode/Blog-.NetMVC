@@ -53,7 +53,7 @@ namespace EmployeeMVC.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> personView(Guid Id)
+        public async Task<IActionResult> View(Guid Id)
         {
            var employee = await applicationDbContext.Employees.FirstOrDefaultAsync(x => x.Id == Id);
 
@@ -70,12 +70,34 @@ namespace EmployeeMVC.Controllers
 
                 };
 
-                return View(viewModel);
+                return await Task.Run(() => View("View",viewModel));
 
 
             }
             return RedirectToAction("Index");
 
+        }
+
+        [HttpPost]
+
+        public async Task<IActionResult> View(UpdateEmployeeModel model)
+        {
+            var employee = await applicationDbContext.Employees.FindAsync(model.Id);
+
+            if (employee != null)
+            {
+                employee.Name = model.Name;
+                employee.Email = model.Email;
+                employee.Phone = model.Phone;
+                employee.Department = model.Department;
+                employee.Salary = model.Salary;
+
+                await applicationDbContext.SaveChangesAsync();
+                return RedirectToAction("Index");
+
+            }
+
+            return RedirectToAction("Index");
         }
     }
 }
