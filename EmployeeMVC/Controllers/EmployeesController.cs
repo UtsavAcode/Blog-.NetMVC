@@ -99,5 +99,19 @@ namespace EmployeeMVC.Controllers
 
             return RedirectToAction("Index");
         }
+
+        public async Task<IActionResult> Delete(UpdateEmployeeModel model)
+        {
+            var employee = await applicationDbContext.Employees.FindAsync(model.Id);
+
+            if (employee != null)
+            {
+                applicationDbContext.Employees.Remove(employee);
+                await applicationDbContext.SaveChangesAsync();
+
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Index");
+        }
     }
 }
