@@ -12,6 +12,8 @@ namespace EmployeeMVC.Data
 
         public DbSet<Employee>Employees{get; set;}
 
+        public DbSet<Employee> Register { get; set;}
+
 
       
     }

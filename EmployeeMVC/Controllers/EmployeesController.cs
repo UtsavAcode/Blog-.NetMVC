@@ -113,5 +113,27 @@ namespace EmployeeMVC.Controllers
             }
             return RedirectToAction("Index");
         }
+
+        //this is for the registration of the employees 
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterEmployee model)
+        {
+            var employee = new Employee()
+            {
+                Name = model.Name,
+                Email = model.Email,
+                Phone = model.Phone,
+                Department = model.Department,
+                Salary = model.Salary,
+            };
+
+            await applicationDbContext.Employees.AddAsync(employee);
+            await applicationDbContext.SaveChangesAsync();
+            return View(employee); ;
+           
+
+
+        }
+
     }
 }
