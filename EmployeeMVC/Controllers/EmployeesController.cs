@@ -1,6 +1,7 @@
 ﻿using EmployeeMVC.Data;
 using EmployeeMVC.Models;
 using EmployeeMVC.Models.Domain;
+using EmployeeMVC.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,21 +9,21 @@ namespace EmployeeMVC.Controllers
 {
     public class EmployeesController : Controller
     {
-        private readonly ApplicationDbContext applicationDbContext;
-        public EmployeesController(ApplicationDbContext applicationDbContext)
+        private readonly IEmployeeRepository applicationDbContext;
+        public EmployeesController(IEmployeeRepository applicationDbContext)
         {
            this.applicationDbContext = applicationDbContext;
         }
 
-        public ApplicationDbContext ApplicationDbContext { get; }
+/*        public ApplicationDbContext ApplicationDbContext { get; }
 
         public ApplicationDbContext ApplicationDbContext1 => applicationDbContext;
-
+*/
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
 
-            var employees = await applicationDbContext.Employees.ToListAsync();
+            var employees = applicationDbContext.GetAll();
             return View (employees);
         }
 
@@ -46,16 +47,16 @@ namespace EmployeeMVC.Controllers
 
             };
 
-            await applicationDbContext.Employees.AddAsync(employee);
-            await applicationDbContext.SaveChangesAsync();
+            applicationDbContext.Add(employee);
+            applicationDbContext.Save();
             return RedirectToAction("Index");
         }
 
 
         [HttpGet]
-        public async Task<IActionResult> View(Guid Id)
+        public IActionResult View(Guid Id)
         {
-           var employee = await applicationDbContext.Employees.FirstOrDefaultAsync(x => x.Id == Id);
+            var employee = applicationDbContext.Get(x => x.Id == Id);
 
             if (employee != null)
             {
@@ -70,7 +71,7 @@ namespace EmployeeMVC.Controllers
 
                 };
 
-                return await Task.Run(() => View("View",viewModel));
+                return View("View",viewModel);
 
 
             }
@@ -80,9 +81,9 @@ namespace EmployeeMVC.Controllers
 
         [HttpPost]
 
-        public async Task<IActionResult> View(UpdateEmployeeModel model)
+        public IActionResult View(UpdateEmployeeModel model)
         {
-            var employee = await applicationDbContext.Employees.FindAsync(model.Id);
+            var employee = applicationDbContext.FindById(model.Id);
 
             if (employee != null)
             {
@@ -92,7 +93,7 @@ namespace EmployeeMVC.Controllers
                 employee.Department = model.Department;
                 employee.Salary = model.Salary;
 
-                await applicationDbContext.SaveChangesAsync();
+                applicationDbContext.Update(employee);
                 return RedirectToAction("Index");
 
             }
@@ -100,14 +101,14 @@ namespace EmployeeMVC.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> Delete(UpdateEmployeeModel model)
+        public IActionResult Delete(UpdateEmployeeModel model)
         {
-            var employee = await applicationDbContext.Employees.FindAsync(model.Id);
+            var employee = applicationDbContext.FindById(model.Id);
 
             if (employee != null)
             {
-                applicationDbContext.Employees.Remove(employee);
-                await applicationDbContext.SaveChangesAsync();
+                applicationDbContext.Remove(employee);
+                applicationDbContext.Save();
 
                 return RedirectToAction("Index");
             }
@@ -116,7 +117,7 @@ namespace EmployeeMVC.Controllers
 
         //this is for the registration of the employees 
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterEmployee model)
+        public IActionResult Register(RegisterEmployee model)
         {
             var employee = new Employee()
             {
@@ -127,8 +128,8 @@ namespace EmployeeMVC.Controllers
                 Salary = model.Salary,
             };
 
-            await applicationDbContext.Employees.AddAsync(employee);
-            await applicationDbContext.SaveChangesAsync();
+            applicationDbContext.Add(employee);
+            applicationDbContext.Save();
             return View(employee); ;
            
 
