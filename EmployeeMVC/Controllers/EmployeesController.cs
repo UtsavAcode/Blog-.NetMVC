@@ -12,7 +12,7 @@ namespace EmployeeMVC.Controllers
         public EmployeesController(ApplicationDbContext applicationDbContext)
         {
            this.applicationDbContext = applicationDbContext;
-        }
+        }//
 
         public ApplicationDbContext ApplicationDbContext { get; }
 
