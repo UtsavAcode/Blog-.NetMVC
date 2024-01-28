@@ -1,0 +1,14 @@
+﻿@model EmployeeMVC.Models.Domain.Employee
+Create your Profile here.
+
+@{
+
+    var Id = Model?.Id;
+
+    if(Id != null)
+    {
+
+        <a asp-action="Profile" class="btn btn-success" asp-route-id="@Model.Id">Profile</a>
+    }
+}
+

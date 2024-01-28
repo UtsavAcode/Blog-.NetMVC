@@ -48,9 +48,26 @@ namespace EmployeeMVC.Controllers
 
             await applicationDbContext.Employees.AddAsync(employee);
             await applicationDbContext.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return RedirectToAction("Dashboard");
         }
 
+
+        [HttpGet]
+        public IActionResult Dashboard()
+        {
+            /* var worker = applicationDbContext.Employees.FirstOrDefault(x => x.Id == Id);
+
+             if(worker !=null) {
+
+                 return View(worker);
+             }
+
+             return View();*/
+
+            var model = new Employee();
+            return View(model);
+            
+        }
 
         [HttpGet]
         public async Task<IActionResult> View(Guid Id)
@@ -114,26 +131,70 @@ namespace EmployeeMVC.Controllers
             return RedirectToAction("Index");
         }
 
-        //this is for the registration of the employees 
-        [HttpPost]
-        public async Task<IActionResult> Register(RegisterEmployee model)
+   
+
+
+
+
+        public IActionResult  Profile(Guid id)
         {
-            var employee = new Employee()
+            var users = applicationDbContext.Employees.FirstOrDefault(x => x.Id == id);
+
+            if (users != null)
             {
-                Name = model.Name,
-                Email = model.Email,
-                Phone = model.Phone,
-                Department = model.Department,
-                Salary = model.Salary,
-            };
-
-            await applicationDbContext.Employees.AddAsync(employee);
-            await applicationDbContext.SaveChangesAsync();
-            return View(employee); ;
-           
+                var create = new Employee()
+                {
+                    Id = users.Id,
+                    Name = users.Name,
+                    Email = users.Email,
+                    Phone = users.Phone,
+                    Department = users.Department,
+                    Salary = users.Salary,
 
 
+
+                };
+
+                return View(create);
+
+            }
+
+            return RedirectToAction("Add");
         }
 
+
+
+        [HttpPost]
+        public async Task<IActionResult> Profile(Employee updatedEmployee)
+        {
+            if (ModelState.IsValid)
+            {
+                // Update the employee in the database
+                var employee = await applicationDbContext.Employees.FindAsync(updatedEmployee.Id);
+
+                if (employee != null)
+                {
+                    employee.Name = updatedEmployee.Name;
+                    employee.Email = updatedEmployee.Email;
+                    employee.Phone = updatedEmployee.Phone;
+                    employee.Department = updatedEmployee.Department;
+                    employee.Salary = updatedEmployee.Salary;
+
+                    await applicationDbContext.SaveChangesAsync();
+                    TempData["Success"] = "Profile updated successfully";
+                }
+
+                // Redirect to a page or action after the update
+                return RedirectToAction("Index");
+            }
+
+            // If ModelState is not valid, redisplay the form with validation errors
+            return View(updatedEmployee);
+        }
+
+
+
     }
+
+       
 }

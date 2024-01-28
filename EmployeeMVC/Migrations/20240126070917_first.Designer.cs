@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EmployeeMVC.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231228072944_first")]
+    [Migration("20240126070917_first")]
     partial class first
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,6 +29,10 @@ namespace EmployeeMVC.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Department")
                         .IsRequired()
@@ -51,7 +55,7 @@ namespace EmployeeMVC.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Employees");
+                    b.ToTable("Employee");
                 });
 #pragma warning restore 612, 618
         }
