@@ -1,0 +1,15 @@
+﻿@model EmployeeMVC.Models.Customer
+
+<h1>Customer Details.</h1>
+
+<!--Displaying the customer name.-->
+
+@Html.DisplayNameFor(m=> Model.Name): @Html.DisplayNameFor(m=>Model.Name)<br />
+
+<!--Displaying the persons age.-->
+
+@Html.DisplayNameFor(m=>Model.Age): @Html.DisplayNameFor(m=> Model.Name)<br />
+
+<!--Displaying the time the page is renderd to compare.-->
+
+<p>Updated at @DateTime.Now</p>

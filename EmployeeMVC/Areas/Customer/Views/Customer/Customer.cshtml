@@ -1,5 +1,16 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿<h1 >This is a tutorial.</h1>
+
+
+<input type="text" id="txtBox" />
+<h1 id="bb"></h1>
+<input type="button" onclick="BtnClick()" value="Button"/>
+
+
+<script>
+    function BtnClick(){
+        
+        var value = $("#txtBox").val();
+
+        $("#bb").text(value);
+    }
+</script>
