@@ -38,10 +38,20 @@ namespace EmployeeMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(AddEmployeeModel addEmployeeRequest) 
         {
-          
-             
+            if (addEmployeeRequest.ProfileImage != null)
+            {
+                //This is the folder that stores our images.
+                string folder = "Images";
 
-            
+                //append the name of the image in the folder variable.
+                folder += Guid.NewGuid().ToString()+""+addEmployeeRequest.ProfileImage.FileName;
+
+
+                //This is the actual path of the images.
+                string folderName = Path.Combine(webHostEnvironment.WebRootPath,folder);
+
+
+            }
             var employee = new Employee()
             {
                
