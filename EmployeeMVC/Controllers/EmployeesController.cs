@@ -167,8 +167,7 @@ namespace EmployeeMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Profile(Employee updatedEmployee)
         {
-            if (ModelState.IsValid)
-            {
+            
                 // Update the employee in the database
                 var employee = await applicationDbContext.Employees.FindAsync(updatedEmployee.Id);
 
@@ -186,10 +185,10 @@ namespace EmployeeMVC.Controllers
 
                 // Redirect to a page or action after the update
                 return RedirectToAction("Index");
-            }
+            
 
             // If ModelState is not valid, redisplay the form with validation errors
-            return View(updatedEmployee);
+          
         }
 
 

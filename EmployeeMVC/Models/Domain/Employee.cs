@@ -19,6 +19,7 @@ namespace EmployeeMVC.Models.Domain
 
         public string Department { get; set; } = null!;
 
+        public string? ImageUrl { get; set; } 
         public string? Address { get; set; }
 
 
