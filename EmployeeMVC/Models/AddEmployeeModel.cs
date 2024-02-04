@@ -15,6 +15,7 @@
 
         public string Department { get; set; } = null!;
 
+        public IFormFile? ProfileImage { get; set; }
         public string? Address { get; set; }
 
     }

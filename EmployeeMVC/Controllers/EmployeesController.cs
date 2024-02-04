@@ -1,6 +1,7 @@
 ﻿using EmployeeMVC.Data;
 using EmployeeMVC.Models;
 using EmployeeMVC.Models.Domain;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,9 +10,11 @@ namespace EmployeeMVC.Controllers
     public class EmployeesController : Controller
     {
         private readonly ApplicationDbContext applicationDbContext;
-        public EmployeesController(ApplicationDbContext applicationDbContext)
+       IWebHostEnvironment webHostEnvironment;
+        public EmployeesController(ApplicationDbContext applicationDbContext, IWebHostEnvironment webHost)
         {
            this.applicationDbContext = applicationDbContext;
+            this.webHostEnvironment = webHost;
         }//
 
         public ApplicationDbContext ApplicationDbContext { get; }
@@ -35,6 +38,10 @@ namespace EmployeeMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(AddEmployeeModel addEmployeeRequest) 
         {
+          
+             
+
+            
             var employee = new Employee()
             {
                

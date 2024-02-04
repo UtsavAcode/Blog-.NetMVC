@@ -2,8 +2,13 @@
 @{
 }
 
-<form method="POST" action = "Add">
+<form method="POST" action = "Add" enctype="multipart/form-data">
     <div class="mb-3">
+
+        <label> Profile Image</label>
+        <input type="file" asp-for="ProfileImage" />
+
+
         <label for="" class="form-label">Name</label>
         <input type="text" class="form-control" asp-for = "Name">
 
