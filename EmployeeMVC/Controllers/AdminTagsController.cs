@@ -33,7 +33,15 @@ namespace EmployeeMVC.Controllers
             };
 
             _applicationDbContext.Tags.Add(tag);
-            return View("Add");
+            _applicationDbContext.SaveChanges();
+            return RedirectToAction("List");
+        }
+
+        [HttpGet]
+        public IActionResult List()
+        {
+            var tag = _applicationDbContext.Tags.ToList();
+            return View(tag);
         }
     }
 }
