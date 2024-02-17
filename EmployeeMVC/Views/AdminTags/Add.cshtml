@@ -1,4 +1,4 @@
-﻿
+﻿@model EmployeeMVC.Models.ViewModels.AddTagRequest
 
 <div class="bg-secondary bg-opacity-10 py-2">
     <div class="container">
@@ -9,12 +9,12 @@
 <div class="container py-5">
     <form method="post">
         <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="name" placeholder="Name">
+            <input type="text" class="form-control" id="name" placeholder="Name" asp-for="Name">
             <label for="name">Name</label>
         </div>
 
         <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="displayName" placeholder="Display Name">
+            <input type="text" class="form-control" id="displayName" placeholder="Display Name" asp-for="DisplayName">
             <label for="displayName">Display Name</label>
         </div>
 
