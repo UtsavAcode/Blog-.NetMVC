@@ -1,6 +1,7 @@
 ﻿using EmployeeMVC.Data;
 using EmployeeMVC.Models.Domain;
 using EmployeeMVC.Models.ViewModels;
+using EmployeeMVC.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,10 +9,11 @@ namespace EmployeeMVC.Controllers
 {
     public class AdminTagsController : Controller
     {
-        private readonly ApplicationDbContext _applicationDbContext;
-        public AdminTagsController( ApplicationDbContext applicationDbContext)
+        private readonly ITagRepository tagRepository;
+
+        public AdminTagsController(ITagRepository tagRepository)
         {
-            this._applicationDbContext = applicationDbContext;
+            this.tagRepository = tagRepository;
         }
 
 
@@ -33,25 +35,24 @@ namespace EmployeeMVC.Controllers
                 DisplayName = addTagRequest.DisplayName,
             };
 
-           await _applicationDbContext.Tags.AddAsync(tag);
-           await _applicationDbContext.SaveChangesAsync();
+            await tagRepository.AddAsync(tag);
             return RedirectToAction("List");
         }
 
         [HttpGet]
         public async Task<IActionResult> List()
         {
-            var tag = await _applicationDbContext.Tags.ToListAsync();
+            var tag = await tagRepository.GetAllAsync();
             return View(tag);
         }
 
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
         {
-            var tag = await _applicationDbContext.Tags.FirstOrDefaultAsync(x => x.Id == id);
+            var tag = await tagRepository.GetAsync(id);
 
             //Checking if the tag is null or not.
-           if(tag != null)
+            if (tag != null)
             {
                 var editTagRequest = new EditTagRequest()
                 {
@@ -81,15 +82,15 @@ namespace EmployeeMVC.Controllers
             };
 
             //Finding and storing the required tag into variable the existingTag.
-            var existingTag = await _applicationDbContext.Tags.FindAsync(tag.Id);
-
-            if (existingTag !=null)
+            var updatedTag = await tagRepository.UpdateAsync(tag);
+            if(updatedTag != null)
             {
-                existingTag.Name = tag.Name;
-                existingTag.DisplayName = tag.DisplayName;
+                //Display success notification.
+            }
 
-                await _applicationDbContext.SaveChangesAsync();
-                return RedirectToAction("Edit", new { id = editTagRequest.Id });
+            else
+            {
+                //Display the failure notification.
             }
             return RedirectToAction("Edit", new { id = editTagRequest.Id });
         }
@@ -97,16 +98,14 @@ namespace EmployeeMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(EditTagRequest editTagRequest)
         {
-            var tag =await _applicationDbContext.Tags.FindAsync(editTagRequest.Id);
+            var deletedTag = await tagRepository.DeleteAsync(editTagRequest.Id);
 
-            if (tag !=null)
+            if(deletedTag != null)
             {
-                _applicationDbContext.Tags.Remove(tag);
-                await _applicationDbContext.SaveChangesAsync();
+                //success notification
                 return RedirectToAction("List");
             }
-
-            return RedirectToAction("Edit", new {id = editTagRequest.Id});
+            return RedirectToAction("Edit", new { id = editTagRequest.Id });
         }
     }
 }
