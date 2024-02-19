@@ -24,7 +24,15 @@
             <label for="displayName">Display Name</label>
         </div>
 
-        <button class="btn btn-dark">Save</button>
+        <div class="d-flex">
+            <button class="btn btn-dark" type="submit">Update</button>
+            <button class="btn btn-danger ms-2" type="submit"
+                asp-area=""
+                asp-controller="AdminTags"
+                asp-action="Delete"
+            >Delete</button>
+        </div>
+        
     </form>
 
 </div>

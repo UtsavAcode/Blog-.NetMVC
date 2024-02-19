@@ -88,9 +88,24 @@ namespace EmployeeMVC.Controllers
                 existingTag.DisplayName = tag.DisplayName;
 
                 _applicationDbContext.SaveChanges();
+                return RedirectToAction("Edit", new { id = editTagRequest.Id });
+            }
+            return RedirectToAction("Edit", new { id = editTagRequest.Id });
+        }
+
+        [HttpPost]
+        public IActionResult Delete(EditTagRequest editTagRequest)
+        {
+            var tag = _applicationDbContext.Tags.Find(editTagRequest.Id);
+
+            if (tag !=null)
+            {
+                _applicationDbContext.Tags.Remove(tag);
+                _applicationDbContext.SaveChanges();
                 return RedirectToAction("List");
             }
-            return RedirectToAction("Edit");
+
+            return RedirectToAction("Edit", new {id = editTagRequest.Id});
         }
     }
 }
