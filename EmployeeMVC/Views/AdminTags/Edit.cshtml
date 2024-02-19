@@ -7,32 +7,37 @@
 </div>
 
 <div class="container py-5">
-    <form method="post">
+    @if (Model != null)
+    {
+        <form method="post">
 
-        <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="Id" placeholder="Name" asp-for="Id" readonly>
-            <label for="name">Id</label>
-        </div>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="Id" placeholder="Name" asp-for="Id" readonly>
+                <label for="name">Id</label>
+            </div>
 
-        <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="name" placeholder="Name" asp-for="Name">
-            <label for="name">Name</label>
-        </div>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="name" placeholder="Name" asp-for="Name">
+                <label for="name">Name</label>
+            </div>
 
-        <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="displayName" placeholder="Display Name" asp-for="DisplayName">
-            <label for="displayName">Display Name</label>
-        </div>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="displayName" placeholder="Display Name" asp-for="DisplayName">
+                <label for="displayName">Display Name</label>
+            </div>
 
-        <div class="d-flex">
-            <button class="btn btn-dark" type="submit">Update</button>
-            <button class="btn btn-danger ms-2" type="submit"
-                asp-area=""
-                asp-controller="AdminTags"
-                asp-action="Delete"
-            >Delete</button>
-        </div>
-        
-    </form>
+            <div class="d-flex">
+                <button class="btn btn-dark" type="submit">Update</button>
+                <button class="btn btn-danger ms-2" type="submit"
+                        asp-area=""
+                        asp-controller="AdminTags"
+                        asp-action="Delete">
+                    Delete
+                </button>
+            </div>
+
+        </form>
+
+    }
 
 </div>

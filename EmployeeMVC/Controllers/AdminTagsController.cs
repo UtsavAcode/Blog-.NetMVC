@@ -2,6 +2,7 @@
 using EmployeeMVC.Models.Domain;
 using EmployeeMVC.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace EmployeeMVC.Controllers
 {
@@ -21,7 +22,7 @@ namespace EmployeeMVC.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add(AddTagRequest addTagRequest)
+        public async Task<IActionResult> Add(AddTagRequest addTagRequest)
         {
             //Mapping the Models.Domain.Tag entity to AddTagRequest Model
 
@@ -32,22 +33,22 @@ namespace EmployeeMVC.Controllers
                 DisplayName = addTagRequest.DisplayName,
             };
 
-            _applicationDbContext.Tags.Add(tag);
-            _applicationDbContext.SaveChanges();
+           await _applicationDbContext.Tags.AddAsync(tag);
+           await _applicationDbContext.SaveChangesAsync();
             return RedirectToAction("List");
         }
 
         [HttpGet]
-        public IActionResult List()
+        public async Task<IActionResult> List()
         {
-            var tag = _applicationDbContext.Tags.ToList();
+            var tag = await _applicationDbContext.Tags.ToListAsync();
             return View(tag);
         }
 
         [HttpGet]
-        public IActionResult Edit(Guid id)
+        public async Task<IActionResult> Edit(Guid id)
         {
-            var tag = _applicationDbContext.Tags.FirstOrDefault(x => x.Id == id);
+            var tag = await _applicationDbContext.Tags.FirstOrDefaultAsync(x => x.Id == id);
 
             //Checking if the tag is null or not.
            if(tag != null)
@@ -67,7 +68,7 @@ namespace EmployeeMVC.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(EditTagRequest editTagRequest)
+        public async Task<IActionResult> Edit(EditTagRequest editTagRequest)
         {
             //The EditTagRequest must be changed to the Tag Domain model.
             //this is because of the entity framework only deals with main domain and not the view Model because
@@ -80,28 +81,28 @@ namespace EmployeeMVC.Controllers
             };
 
             //Finding and storing the required tag into variable the existingTag.
-            var existingTag = _applicationDbContext.Tags.Find(tag.Id);
+            var existingTag = await _applicationDbContext.Tags.FindAsync(tag.Id);
 
             if (existingTag !=null)
             {
                 existingTag.Name = tag.Name;
                 existingTag.DisplayName = tag.DisplayName;
 
-                _applicationDbContext.SaveChanges();
+                await _applicationDbContext.SaveChangesAsync();
                 return RedirectToAction("Edit", new { id = editTagRequest.Id });
             }
             return RedirectToAction("Edit", new { id = editTagRequest.Id });
         }
 
         [HttpPost]
-        public IActionResult Delete(EditTagRequest editTagRequest)
+        public async Task<IActionResult> Delete(EditTagRequest editTagRequest)
         {
-            var tag = _applicationDbContext.Tags.Find(editTagRequest.Id);
+            var tag =await _applicationDbContext.Tags.FindAsync(editTagRequest.Id);
 
             if (tag !=null)
             {
                 _applicationDbContext.Tags.Remove(tag);
-                _applicationDbContext.SaveChanges();
+                await _applicationDbContext.SaveChangesAsync();
                 return RedirectToAction("List");
             }
 
