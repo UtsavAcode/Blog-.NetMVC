@@ -8,68 +8,85 @@
 
 
 <div class="container py-5">
-    <form method="post">
-        <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="heading" placeholder="Heading" asp-for="Heading">
-            <label for="heading">Heading</label>
-        </div>
+    @if (Model != null)
+    {
+        <form method="post">
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="Id" placeholder="Id" asp-for="Id" readonly>
+                <label for="Id">Id</label>
+            </div>
 
-        <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="pageTitle" placeholder="PageTitle" asp-for="PageTitle">
-            <label for="pageTitle">Page Title</label>
-        </div>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="heading" placeholder="Heading" asp-for="Heading">
+                <label for="heading">Heading</label>
+            </div>
 
-        <div class="form-floating mb-3">
-            <textarea class="form-control" id="content" placeholder="Content" asp-for="Content"></textarea>
-            <label for="content">Content</label>
-        </div>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="pageTitle" placeholder="PageTitle" asp-for="PageTitle">
+                <label for="pageTitle">Page Title</label>
+            </div>
 
-        <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="shortDescription" placeholder="ShortDescription" asp-for="ShortDescription">
-            <label for="shortDescription">ShortDescription</label>
-        </div>
+            <div class="form-floating mb-3">
+                <textarea class="form-control" id="content" placeholder="Content" asp-for="Content"></textarea>
+                <label for="content">Content</label>
+            </div>
 
-        <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="featuredImageUrl" placeholder="FeaturedImageUrl" asp-for="FeaturedImageUrl">
-            <label for="featuredImageUrl">FeaturedImageUrl</label>
-        </div>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="shortDescription" placeholder="ShortDescription" asp-for="ShortDescription">
+                <label for="shortDescription">ShortDescription</label>
+            </div>
 
-        <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="urlHandle" placeholder="UrlHandle" asp-for="UrlHandle">
-            <label for="urlHandle">Url Handle</label>
-        </div>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="featuredImageUrl" placeholder="FeaturedImageUrl" asp-for="FeaturedImageUrl">
+                <label for="featuredImageUrl">FeaturedImageUrl</label>
+            </div>
 
-        <div class="form-floating mb-3">
-            <input type="date" class="form-control" id="publishedDate" placeholder="PublishedDate" asp-for="PublishedDate">
-            <label for="publishedDate">PublishedDate</label>
-        </div>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="urlHandle" placeholder="UrlHandle" asp-for="UrlHandle">
+                <label for="urlHandle">Url Handle</label>
+            </div>
 
-
-        <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="author" placeholder="Author" asp-for="Author">
-            <label for="author">Author</label>
-        </div>
-
-        <div class="form-check mb-3">
-            <input class="form-check-input" type="checkbox" id="visible" asp-for="Visible">
-            <label class="form-check-label">
-                Is Visible?
-            </label>
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label">Tags</label>
-            <select class="form-select"
-                    asp-items="@Model?.Tags"
-                    asp-for="SelectedTags">
-            </select>
-        </div>
-
-        <div class="mb-3">
-
-            <button class="btn btn-dark" type="submit">Save</button>
-        </div>
+            <div class="form-floating mb-3">
+                <input type="date" class="form-control" id="publishedDate" placeholder="PublishedDate" asp-for="PublishedDate">
+                <label for="publishedDate">PublishedDate</label>
+            </div>
 
 
-    </form>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="author" placeholder="Author" asp-for="Author">
+                <label for="author">Author</label>
+            </div>
+
+            <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" id="visible" asp-for="Visible">
+                <label class="form-check-label">
+                    Is Visible?
+                </label>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Tags</label>
+                <select class="form-select"
+                        asp-items="@Model?.Tags"
+                        asp-for="SelectedTags">
+                </select>
+            </div>
+
+            <div class="mb-3 d-flex">
+
+                <button class="btn btn-dark" type="submit">Update</button>
+                <button class="btn btn-danger"
+                        type="submit"
+                        asp-action="Delete"
+                        asp-controller="AdminBlogPosts"
+                        asp-area="">
+                    Delete
+                </button>
+
+            </div>
+
+
+        </form>
+    }
+
 </div>

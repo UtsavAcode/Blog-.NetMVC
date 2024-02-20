@@ -110,5 +110,60 @@ namespace EmployeeMVC.Controllers
           
             return View(null);
         }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditBlogPostRequest edit)
+        {
+            //Map View Model back to the domain model.
+
+            var blogPost = new BlogPost
+            {
+                Id = edit.Id,
+                Heading = edit.Heading,
+                PageTitle = edit.PageTitle,
+                Content = edit.Content,
+                Author = edit.Author,
+                FeaturedImageUrl = edit.FeaturedImageUrl,
+                ShortDescription = edit.ShortDescription,
+                PublishedDate = edit.PublishedDate.ToUniversalTime(),
+                UrlHandle = edit.UrlHandle,
+                Visible = edit.Visible,
+            };
+
+            //Map Tags into Domain Model.
+            var selectedTags = new List<Tag>();
+            foreach (var selectedTag in edit.SelectedTags)
+            {
+                if(Guid.TryParse(selectedTag, out var tag))
+                {
+                    var foundTag = await tagRepository.GetAsync(tag);
+
+                    if(foundTag != null)
+                    {
+                        selectedTags.Add(foundTag);
+                    }
+                }
+            }
+
+            blogPost.Tags = selectedTags;
+
+            //Submit Information to the repository to Update.
+            var updatedBlog = await _blogRepo.UpdateAsync(blogPost);
+            
+            if (updatedBlog != null)
+            {
+                //Show success notification 
+                return RedirectToAction("Edit");
+            }
+
+            else
+            {
+                //Failure Notification 
+                return RedirectToAction("Edit");
+            }
+            //Redirect to GET.
+
+        }
     }
 }
