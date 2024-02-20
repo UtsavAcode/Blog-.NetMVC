@@ -165,5 +165,22 @@ namespace EmployeeMVC.Controllers
             //Redirect to GET.
 
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(EditBlogPostRequest editBlogPostRequest)
+        {
+            //Tag to repository to delete this blog and tags.
+            var deletedBlog = await _blogRepo.DeleteAsync(editBlogPostRequest.Id);
+
+            if (deletedBlog != null)
+            {
+                //show the success notification.
+                return RedirectToAction("List");
+            }
+
+            //show the error notification
+
+            return RedirectToAction("List", new { id = editBlogPostRequest.Id});
+        }
     }
 }
