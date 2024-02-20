@@ -10,7 +10,7 @@ namespace EmployeeMVC.Repository.Implimentation
         private readonly ApplicationDbContext _applicationDbContext;
         public TagRepository(ApplicationDbContext applicationDbContext)
         {
-            this._applicationDbContext = applicationDbContext;      
+            _applicationDbContext = applicationDbContext;      
         }
         public async Task<Tag> AddAsync(Tag tag)
         {

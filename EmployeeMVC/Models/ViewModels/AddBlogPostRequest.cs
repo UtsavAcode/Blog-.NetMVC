@@ -18,6 +18,6 @@ namespace EmployeeMVC.Models.ViewModels
         public IEnumerable<SelectListItem>? Tags { get; set; }
 
         //Selected Tags
-        public string SelectedTag { get; set; }
+        public string[] SelectedTag { get; set; } =  Array.Empty<string>(); 
     }
 }
