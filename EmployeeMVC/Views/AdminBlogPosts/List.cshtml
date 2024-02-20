@@ -13,7 +13,8 @@
             <tr class="bg-dark text-light">
                 <th>Id</th>
                 <th>Heading</th>
-                <th>Tags</th
+                <th>Tags</th>
+                <th></th>
             </tr>
         </thead>
 
@@ -30,6 +31,12 @@
                             <span class="badge bg-secondary me-1">@tag.Name</span>
                         }
                     </div>
+                    </td>
+                    <td>
+                        <a class="btn btn-primary" asp-area="" 
+                        asp-action="Edit"
+                        asp-controller="AdminBlogPosts" 
+                        asp-route-id="@blogPost.Id">Edit</a>
                     </td>
                 </tr>
             }

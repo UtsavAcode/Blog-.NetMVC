@@ -72,5 +72,43 @@ namespace EmployeeMVC.Controllers
             var blogs = await _blogRepo.GetAllAsync();
             return View(blogs);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            //Retrieve the result from the repository
+            var blogPosts = await _blogRepo.GetAsync(id);
+            var tagsDomainModel = await tagRepository.GetAllAsync();
+
+
+            if(blogPosts != null)
+            {
+                var model = new EditBlogPostRequest
+                {
+                    Id = blogPosts.Id,
+                    Heading = blogPosts.Heading,
+                    PageTitle = blogPosts.PageTitle,
+                    Content = blogPosts.Content,
+                    Author = blogPosts.Author,
+                    FeaturedImageUrl = blogPosts.FeaturedImageUrl,
+                    UrlHandle = blogPosts.UrlHandle,
+                    ShortDescription = blogPosts.ShortDescription,
+                    PublishedDate = blogPosts.PublishedDate,
+                    Visible = blogPosts.Visible,
+                    Tags = tagsDomainModel.Select(x => new SelectListItem
+                    {
+                        Text = x.Name,
+                        Value = x.Id.ToString()
+                    }),
+                    SelectedTags = blogPosts.Tags.Select(x => x.Id.ToString()).ToArray(),
+                };
+
+                return View(model);
+
+            }
+            //Mapping the Domain model to the View model
+          
+            return View(null);
+        }
     }
 }
