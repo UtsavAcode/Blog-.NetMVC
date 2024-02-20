@@ -1,7 +1,76 @@
-﻿
+﻿@model EmployeeMVC.Models.ViewModels.AddBlogPostRequest
 
 <div class="bg-secondary bg-opacity-10 py-2">
     <div class="container">
         <h1>Add new BlogPost.</h1>
     </div>
+</div>
+
+<div class="container py-5">
+    <form method="post">
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="heading" placeholder="Heading" asp-for="Heading">
+            <label for="heading">Heading</label>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="pageTitle" placeholder="PageTitle" asp-for="PageTitle">
+            <label for="pageTitle">Page Title</label>
+        </div>
+
+        <div class="form-floating mb-3">
+            <textarea class="form-control" id="content" placeholder="Content" asp-for="Content"></textarea>
+            <label for="content">Content</label>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="shortDescription" placeholder="ShortDescription" asp-for="ShortDescription">
+            <label for="shortDescription">ShortDescription</label>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="featuredImageUrl" placeholder="FeaturedImageUrl" asp-for="FeaturedImageUrl">
+            <label for="featuredImageUrl">FeaturedImageUrl</label>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="urlHandle" placeholder="UrlHandle" asp-for="UrlHandle">
+            <label for="urlHandle">Url Handle</label>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="date" class="form-control" id="publishedDate" placeholder="PublishedDate" asp-for="PublishedDate">
+            <label for="publishedDate">PublishedDate</label>
+        </div>
+
+
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="author" placeholder="Author" asp-for="Author">
+            <label for="author">Author</label>
+        </div>
+
+        <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" id="visible" asp-for="Visible" >
+            <label class="form-check-label">
+                Is Visible?
+            </label>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Tags</label>
+            <select class="form-select"
+                asp-items="@Model?.Tags"
+                asp-for="SelectedTag"
+            >
+
+            </select>
+        </div>
+       
+        <div class="mb-3">
+
+            <button class="btn btn-dark" type="submit">Save</button>
+        </div>
+
+
+    </form>
 </div>
