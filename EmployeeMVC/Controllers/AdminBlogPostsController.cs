@@ -31,7 +31,7 @@ namespace EmployeeMVC.Controllers
         }
 
         [HttpPost]
-        public async IActionResult Add(AddBlogPostRequest addBlogPostRequest)
+        public async Task<IActionResult> Add(AddBlogPostRequest addBlogPostRequest)
         {
             //Mapping View Model to The Domain model.
             var blogPost = new BlogPost
@@ -39,21 +39,38 @@ namespace EmployeeMVC.Controllers
                 Heading = addBlogPostRequest.Heading,
                 PageTitle = addBlogPostRequest.PageTitle,
                 ShortDescription = addBlogPostRequest.ShortDescription,
+                Content = addBlogPostRequest.Content,
                 FeaturedImageUrl = addBlogPostRequest.FeaturedImageUrl,
                 UrlHandle = addBlogPostRequest.UrlHandle,
-                PublishedDate = addBlogPostRequest.PublishedDate,
+                PublishedDate = addBlogPostRequest.PublishedDate.ToUniversalTime(),
                 Author = addBlogPostRequest.Author,
                 Visible = addBlogPostRequest.Visible,
             };
 
             //Mapping Tags from the selected tags.
             var selectedTags = new List<Tag>();
-            foreach(var selectedtTagId in addBlogPostRequest.SelectedTags)
+            foreach(var selectedTagId in addBlogPostRequest.SelectedTags)
             {
-                
+                var selectedTagIdAsGuid = Guid.Parse(selectedTagId);
+                var existingTag = await tagRepository.GetAsync(selectedTagIdAsGuid);
+
+                if(existingTag != null)
+                {
+                    selectedTags.Add(existingTag);
+                }
             }
+
+            blogPost.Tags = selectedTags;
             await _blogRepo.AddAsync(blogPost);
-            return View();
+            return RedirectToAction("Add");
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> List()
+        {
+            var blogs = await _blogRepo.GetAllAsync();
+            return View(blogs);
         }
     }
 }

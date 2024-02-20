@@ -1,6 +1,7 @@
 ﻿using EmployeeMVC.Data;
 using EmployeeMVC.Models.Domain;
 using EmployeeMVC.Repository.Interface;
+using Microsoft.EntityFrameworkCore;
 
 namespace EmployeeMVC.Repository.Implimentation
 {
@@ -27,9 +28,9 @@ namespace EmployeeMVC.Repository.Implimentation
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<BlogPost>> GetAllAsync()
+        public async Task<IEnumerable<BlogPost>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _context.BlogPosts.Include( x => x.Tags ).ToListAsync();
         }
 
         public Task<BlogPost?> GetAsync(Guid id)
