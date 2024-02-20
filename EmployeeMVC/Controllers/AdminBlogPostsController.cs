@@ -47,6 +47,11 @@ namespace EmployeeMVC.Controllers
             };
 
             //Mapping Tags from the selected tags.
+            var selectedTags = new List<Tag>();
+            foreach(var selectedtTagId in addBlogPostRequest.SelectedTags)
+            {
+                
+            }
             await _blogRepo.AddAsync(blogPost);
             return View();
         }
