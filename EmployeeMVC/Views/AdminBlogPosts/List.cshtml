@@ -6,7 +6,8 @@
     </div>
 </div>
 
-
+@if (Model != null && Model.Any())
+{
 <div class="container py-5">
     <table class="table table-striped">
         <thead>
@@ -42,4 +43,10 @@
             }
         </tbody>
     </table>
-</div> 
+    </div>
+
+}
+else
+{
+    <p>No Blog Posts.</p>
+}

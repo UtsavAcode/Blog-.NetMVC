@@ -26,9 +26,9 @@
                 <label for="pageTitle">Page Title</label>
             </div>
 
-            <div class="form-floating mb-3">
-                <textarea class="form-control" id="content" placeholder="Content" asp-for="Content"></textarea>
-                <label for="content">Content</label>
+            <div class=" mb-3">
+                <textarea class="form-control" id="content" asp-for="Content"></textarea>
+                
             </div>
 
             <div class="form-floating mb-3">
@@ -90,3 +90,9 @@
     }
 
 </div>
+
+@section Scripts{
+    <script>
+        var editor = new FroalaEditor("#content")
+    </script>
+}
