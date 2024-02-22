@@ -14,7 +14,7 @@ namespace EmployeeMVC.Repository.Implimentation
 
             account = new Account(
                 configuration.GetSection("Cloudinary")["CloudName"],
-                configuration.GetSection("Cloudinary")["ApiName"],
+                configuration.GetSection("Cloudinary")["ApiKey"],
                 configuration.GetSection("Configuration") ["ApiSecret"]
                 );  
 

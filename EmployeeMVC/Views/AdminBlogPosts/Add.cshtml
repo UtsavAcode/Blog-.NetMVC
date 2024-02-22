@@ -28,12 +28,11 @@
             <label for="shortDescription">ShortDescription</label>
         </div>
 
-        <div class="form-floating mb-3">
-            <input type="file" class="form-control" id="featuredImageUpload" placeholder="FeaturedImageUpload" />
-            <label for="featuredImageUpload">Featured Image Upload</label>
 
-            <img src="" class="m-2" id="featuredImageDisplay" style="display:none; width:300px;"/>
-        </div>
+        <input type="file" class="form-control" id="featuredImageUpload" placeholder="FeaturedImageUpload" onchange="previewImage(event)" />
+        <label for="featuredImageUpload">Featured Image Upload</label>
+
+        <img src="" class="m-2" id="featuredImageDisplay" style="display:none; width:300px;" />
 
         <div class="form-floating mb-3">
             <input type="text" class="form-control" id="featuredImageUrl" placeholder="FeaturedImageUrl" asp-for="FeaturedImageUrl">
@@ -85,32 +84,51 @@
     <script>
         var editor = new FroalaEditor('#content');
 
-        const featuredUploadElement = document.querySelector('#featuredImageUpload');
-        const featuredImageUrlElement = document.querySelector('#featuredImageUrl');
-        const featuredImageDisplayElement = document.querySelector('#featuredImageDisplay');
+        //const featuredUploadElement = document.querySelector('#featuredImageUpload');
+        //const featuredImageUrlElement = document.querySelector('#featuredImageUrl');
+        //const featuredImageDisplayElement = document.querySelector('#featuredImageDisplay');
        
-        async function uploadFeaturedImage(e){
-            console.log(e.target.files[0]);
+      //  async function uploadFeaturedImage(e){
+        //    console.log(e.target.files[0]);
 
-            let data = new FormData();
-            data.append('file', e.target.files[0]);
+          //  let data = new FormData();
+            //data.append('file', e.target.files[0]);
 
-            await fetch('/api/images', {
-                method: 'POST',
-                headers: {
-                    'Accept': '*/*',
-                },
-                body: data
-            }).then(response => response.json())
-                .then(result => {
-                    featuredImageUrlElement.value = result.link;
-                    featuredImageDisplayElement.src = result.link;
-                    featuredImageDisplayElement.style.display = 'block';
-                });
-        }
+         //   await fetch('/api/images', {
+           //     method: 'POST',
+               // headers: {
+             //       'Accept': '*/*',
+               // },
+               // body: data
+          //  }).then(response => response.json())
+            //    .then(result => {
+              //      featuredImageUrlElement.value = result.link;
+                //    featuredImageDisplayElement.src = result.link;
+                  //  featuredImageDisplayElement.style.display = 'block';
+           //     });
+       // }
 
         
 
-        featuredUploadElement.addEventListener('change', uploadFeaturedImage);
+       // featuredUploadElement.addEventListener('change', uploadFeaturedImage);
+        function previewImage(event) {
+            const input = event.target;
+            const preview = document.getElementById('featuredImageDisplay');
+
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                preview.src = "";
+                preview.style.display = 'none';
+            }
+        }
+
     </script>
 }
