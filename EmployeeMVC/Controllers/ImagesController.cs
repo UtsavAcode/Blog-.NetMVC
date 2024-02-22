@@ -10,10 +10,13 @@ namespace EmployeeMVC.Controllers
         //The method below wil call a repository and through the repository we will call a third party API service which is
         //Cloudinary
 
+     
+
         [HttpPost]
         public async Task<IActionResult> UploadAsync(IFormFile file)
         {
             //call the repository
+
         }
     }
 }
