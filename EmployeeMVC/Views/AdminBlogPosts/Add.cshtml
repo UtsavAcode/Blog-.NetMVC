@@ -29,8 +29,8 @@
         </div>
 
         <div class="mb-3">
-            @*             <label for="featuredImageUpload">Featured Image Upload</label>
-            <input type="hidden" asp-for="@Model.FeaturedImageUrl" /> *@
+            <label for="featuredImageUpload">Featured Image Upload</label>
+
             <input type="file" name="file" accept="/*" class="form-control mb-3" id="featuredImageUpload" placeholder="FeaturedImageUpload" onchange="previewImage(event)" />
 
             <img src="" class="m-2" id="featuredImageDisplay" style="display:none; width:300px;" />

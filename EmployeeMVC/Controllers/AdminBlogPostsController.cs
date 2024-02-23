@@ -116,7 +116,7 @@ namespace EmployeeMVC.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Edit(EditBlogPostRequest edit)
+        public async Task<IActionResult> Edit(EditBlogPostRequest edit, IFormFile file)
         {
             //Map View Model back to the domain model.
 
@@ -127,7 +127,7 @@ namespace EmployeeMVC.Controllers
                 PageTitle = edit.PageTitle,
                 Content = edit.Content,
                 Author = edit.Author,
-                FeaturedImageUrl = edit.FeaturedImageUrl,
+                FeaturedImageUrl = _fileHelper.SaveFileAndReturnName("images", file) ?? "",
                 ShortDescription = edit.ShortDescription,
                 PublishedDate = edit.PublishedDate.ToUniversalTime(),
                 UrlHandle = edit.UrlHandle,
