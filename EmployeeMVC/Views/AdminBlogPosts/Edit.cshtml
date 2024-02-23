@@ -52,7 +52,7 @@
             </div>
 
             <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="featuredImageUrl" placeholder="FeaturedImageUrl" asp-for="FeaturedImageUrl">
+                <input type="text" class="form-control" id="featuredImageUrl" placeholder="FeaturedImageUrl" asp-for="FeaturedImageUrl" readonly>
                 <label for="featuredImageUrl">FeaturedImageUrl</label>
             </div>
 
@@ -108,7 +108,10 @@
 
 @section Scripts{
     <script>
-        var editor = new FroalaEditor("#content")
+        var editor = new FroalaEditor("#content", {
+            imageUploadUrl: 'images'
+        }
+        );
 
 
         featuredUploadElement.addEventListener('change', uploadFeaturedImage);
