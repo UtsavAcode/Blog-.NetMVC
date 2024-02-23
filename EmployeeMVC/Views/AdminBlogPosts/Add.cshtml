@@ -7,7 +7,7 @@
 </div>
 
 <div class="container py-5">
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         <div class="form-floating mb-3">
             <input type="text" class="form-control" id="heading" placeholder="Heading" asp-for="Heading">
             <label for="heading">Heading</label>
@@ -28,18 +28,22 @@
             <label for="shortDescription">ShortDescription</label>
         </div>
 
+        <div class="mb-3">
+            @*             <label for="featuredImageUpload">Featured Image Upload</label>
+            <input type="hidden" asp-for="@Model.FeaturedImageUrl" /> *@
+            <input type="file" name="file" accept="/*" class="form-control mb-3" id="featuredImageUpload" placeholder="FeaturedImageUpload" onchange="previewImage(event)" />
 
-        <input type="file" class="form-control mb-3" id="featuredImageUpload" placeholder="FeaturedImageUpload" onchange="previewImage(event)" />
-        @* <label for="featuredImageUpload">Featured Image Upload</label> *@
+            <img src="" class="m-2" id="featuredImageDisplay" style="display:none; width:300px;" />
+        </div>
 
-        <img src="" class="m-2" id="featuredImageDisplay" style="display:none; width:300px;" />
 
         <div class="form-floating mb-3">
+
             <input type="text" class="form-control" id="featuredImageUrl" placeholder="FeaturedImageUrl" asp-for="FeaturedImageUrl" readonly>
             <label for="featuredImageUrl">Featured Image Url</label>
         </div>
 
-@*         <input type="text" class="form-control" id="imageLink" readonly style="display:none;">
+        @*         <input type="text" class="form-control" id="imageLink" readonly style="display:none;">
         <label for="imageLink">Image Link</label> *@
 
         <div class="form-floating mb-3">
@@ -48,7 +52,7 @@
         </div>
 
         <div class="form-floating mb-3">
-            <input type="date" class="form-control" id="publishedDate" placeholder="PublishedDate" asp-for="PublishedDate"> 
+            <input type="date" class="form-control" id="publishedDate" placeholder="PublishedDate" asp-for="PublishedDate">
             <label for="publishedDate">Published Date</label>
         </div>
 
@@ -90,31 +94,31 @@
         //const featuredUploadElement = document.querySelector('#featuredImageUpload');
         //const featuredImageUrlElement = document.querySelector('#featuredImageUrl');
         //const featuredImageDisplayElement = document.querySelector('#featuredImageDisplay');
-       
-      //  async function uploadFeaturedImage(e){
+
+        //  async function uploadFeaturedImage(e){
         //    console.log(e.target.files[0]);
 
-          //  let data = new FormData();
-            //data.append('file', e.target.files[0]);
+        //  let data = new FormData();
+        //data.append('file', e.target.files[0]);
 
-         //   await fetch('/api/images', {
-           //     method: 'POST',
-               // headers: {
-             //       'Accept': '*/*',
-               // },
-               // body: data
-          //  }).then(response => response.json())
-            //    .then(result => {
-              //      featuredImageUrlElement.value = result.link;
-                //    featuredImageDisplayElement.src = result.link;
-                  //  featuredImageDisplayElement.style.display = 'block';
-           //     });
-       // }
+        //   await fetch('/api/images', {
+        //     method: 'POST',
+        // headers: {
+        //       'Accept': '*/*',
+        // },
+        // body: data
+        //  }).then(response => response.json())
+        //    .then(result => {
+        //      featuredImageUrlElement.value = result.link;
+        //    featuredImageDisplayElement.src = result.link;
+        //  featuredImageDisplayElement.style.display = 'block';
+        //     });
+        // }
 
-        
 
-       // featuredUploadElement.addEventListener('change', uploadFeaturedImage);
-     
+
+        featuredUploadElement.addEventListener('change', uploadFeaturedImage);
+
 
         function previewImage(event) {
             const input = event.target;

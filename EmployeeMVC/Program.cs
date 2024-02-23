@@ -1,4 +1,6 @@
 using EmployeeMVC.Data;
+using EmployeeMVC.Helper.Implementation;
+using EmployeeMVC.Helper.Interface;
 using EmployeeMVC.Repository.Implimentation;
 using EmployeeMVC.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +15,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddScoped<ITagRepository, TagRepository>();
 builder.Services.AddScoped<IBlogPostRepository, BlogPostRepository>();
-builder.Services.AddScoped<IImageRepository, CloudinaryImageRepository>();
+
+builder.Services.AddScoped<IFileHelper, FileHelper>();
 
 var app = builder.Build();
 

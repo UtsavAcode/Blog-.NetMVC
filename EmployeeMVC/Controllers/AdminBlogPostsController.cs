@@ -1,4 +1,5 @@
-﻿using EmployeeMVC.Models.Domain;
+﻿using EmployeeMVC.Helper.Interface;
+using EmployeeMVC.Models.Domain;
 using EmployeeMVC.Models.ViewModels;
 using EmployeeMVC.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
@@ -10,11 +11,13 @@ namespace EmployeeMVC.Controllers
     {
         private readonly ITagRepository tagRepository;
         private readonly IBlogPostRepository _blogRepo;
+        private readonly IFileHelper _fileHelper;
 
-        public AdminBlogPostsController(ITagRepository tagRepository, IBlogPostRepository blogRepo)
+        public AdminBlogPostsController(ITagRepository tagRepository, IBlogPostRepository blogRepo, IFileHelper fileHelper)
         {
             this.tagRepository = tagRepository;
             _blogRepo = blogRepo;
+            _fileHelper = fileHelper;
         }
 
         [HttpGet]
@@ -31,7 +34,7 @@ namespace EmployeeMVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(AddBlogPostRequest addBlogPostRequest)
+        public async Task<IActionResult> Add(AddBlogPostRequest addBlogPostRequest, IFormFile file)
         {
             //Mapping View Model to The Domain model.
             var blogPost = new BlogPost
@@ -40,7 +43,7 @@ namespace EmployeeMVC.Controllers
                 PageTitle = addBlogPostRequest.PageTitle,
                 ShortDescription = addBlogPostRequest.ShortDescription,
                 Content = addBlogPostRequest.Content,
-                FeaturedImageUrl = addBlogPostRequest.FeaturedImageUrl,
+                FeaturedImageUrl = _fileHelper.SaveFileAndReturnName("images",file)?? "",
                 UrlHandle = addBlogPostRequest.UrlHandle,
                 PublishedDate = addBlogPostRequest.PublishedDate.ToUniversalTime(),
                 Author = addBlogPostRequest.Author,
