@@ -29,8 +29,8 @@
         </div>
 
 
-        <input type="file" class="form-control" id="featuredImageUpload" placeholder="FeaturedImageUpload" onchange="previewImage(event)" />
-        <label for="featuredImageUpload">Featured Image Upload</label>
+        <input type="file" class="form-control mb-3" id="featuredImageUpload" placeholder="FeaturedImageUpload" onchange="previewImage(event)" />
+        @* <label for="featuredImageUpload">Featured Image Upload</label> *@
 
         <img src="" class="m-2" id="featuredImageDisplay" style="display:none; width:300px;" />
 
@@ -39,13 +39,16 @@
             <label for="featuredImageUrl">Featured Image Url</label>
         </div>
 
+@*         <input type="text" class="form-control" id="imageLink" readonly style="display:none;">
+        <label for="imageLink">Image Link</label> *@
+
         <div class="form-floating mb-3">
             <input type="text" class="form-control" id="urlHandle" placeholder="UrlHandle" asp-for="UrlHandle">
             <label for="urlHandle">Url Handle</label>
         </div>
 
         <div class="form-floating mb-3">
-            <input type="date" class="form-control" id="publishedDate" placeholder="PublishedDate" asp-for="PublishedDate">
+            <input type="date" class="form-control" id="publishedDate" placeholder="PublishedDate" asp-for="PublishedDate"> 
             <label for="publishedDate">Published Date</label>
         </div>
 
@@ -111,9 +114,12 @@
         
 
        // featuredUploadElement.addEventListener('change', uploadFeaturedImage);
+     
+
         function previewImage(event) {
             const input = event.target;
             const preview = document.getElementById('featuredImageDisplay');
+            const imageLink = document.getElementById('featuredImageUrl');
 
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
@@ -121,12 +127,23 @@
                 reader.onload = function (e) {
                     preview.src = e.target.result;
                     preview.style.display = 'block';
+                    imageLink.value = e.target.result;
+                    imageLink.style.display = 'block';
                 }
 
                 reader.readAsDataURL(input.files[0]);
             } else {
                 preview.src = "";
                 preview.style.display = 'none';
+                imageLink.value = "";
+                imageLink.style.display = 'none';
+            }
+        }
+
+        function displayImageLink() {
+            const imageLink = document.getElementById('featuredImageUrl');
+            if (imageLink.style.display === 'block') {
+                alert('Image Link: ' + imageLink.value);
             }
         }
 
