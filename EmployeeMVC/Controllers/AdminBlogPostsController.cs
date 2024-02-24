@@ -127,7 +127,7 @@ namespace EmployeeMVC.Controllers
                 PageTitle = edit.PageTitle,
                 Content = edit.Content,
                 Author = edit.Author,
-                FeaturedImageUrl = _fileHelper.SaveFileAndReturnName("images", file) ?? "",
+              //  FeaturedImageUrl = _fileHelper.SaveFileAndReturnName("images", file) ?? "",
                 ShortDescription = edit.ShortDescription,
                 PublishedDate = edit.PublishedDate.ToUniversalTime(),
                 UrlHandle = edit.UrlHandle,
@@ -150,6 +150,12 @@ namespace EmployeeMVC.Controllers
             }
 
             blogPost.Tags = selectedTags;
+
+            if(file != null)
+            {
+                blogPost.FeaturedImageUrl = _fileHelper.SaveFileAndReturnName("images", file) ??"";
+            }
+
 
             //Submit Information to the repository to Update.
             var updatedBlog = await _blogRepo.UpdateAsync(blogPost);
