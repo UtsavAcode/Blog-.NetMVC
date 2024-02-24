@@ -40,6 +40,22 @@
                         <img src="~/Images/@blog.FeaturedImageUrl"
                         alt="@blog.Heading"
                         class="mb-2 d-block img-fluid" />
+
+                        <h2 class="mb-4">@blog.Heading</h2>
+                        <p class="mb-4">
+                            Author: @blog.Author
+                            <br />
+                            Published Date: @blog.PublishedDate.ToShortDateString()
+                        </p>
+
+                        <p class="mb-4">
+                            @foreach(var tag in blog.Tags)
+                            {
+                                <span class="badge bg-secondary me-1">@tag.Name</span>
+                            }
+                        </p>
+
+                        <p class="mb-4">@blog.ShortDescription</p>
                     </div>
                 }
             }
