@@ -17,7 +17,7 @@
                 background is welcome to express themselves in their blogs
                 in this platform. I Welcome you all 🙇💐.
             </p>
-        </div>
+        </div>      
 
 
         <div class="col-12 col-lg-6">
@@ -56,6 +56,12 @@
                         </p>
 
                         <p class="mb-4">@blog.ShortDescription</p>
+
+                        <a class="btn btn-dark"
+                            asp-action="Index"
+                            asp-controller="Blog"
+                            asp-route-urlHandle="@blog.UrlHandle"
+                        >Read More</a>
                     </div>
                 }
             }
