@@ -1,4 +1,5 @@
 ﻿using EmployeeMVC.Models;
+using EmployeeMVC.Models.ViewModels;
 using EmployeeMVC.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -9,17 +10,27 @@ namespace EmployeeMVC.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IBlogPostRepository _blog;
+        private readonly ITagRepository _tag;
 
-        public HomeController(ILogger<HomeController> logger, IBlogPostRepository blog)
+        public HomeController(ILogger<HomeController> logger, IBlogPostRepository blog, ITagRepository tag)
         {
             _logger = logger;
             _blog = blog;
+            _tag = tag;
         }
 
         public async Task<IActionResult> Index()
         {
             var blogs = await _blog.GetAllAsync();
-            return View(blogs);
+            var tags = await _tag.GetAllAsync();
+
+            var model = new HomeViewModel
+            {
+                BlogPosts = blogs,
+                Tags = tags
+
+            };
+            return View(model);
         }
 
         public IActionResult Privacy()
