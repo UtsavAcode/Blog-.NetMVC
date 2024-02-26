@@ -3,6 +3,7 @@ using EmployeeMVC.Helper.Implementation;
 using EmployeeMVC.Helper.Interface;
 using EmployeeMVC.Repository.Implimentation;
 using EmployeeMVC.Repository.Interface;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,9 +14,14 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddDbContext<AuthDbContext>(options =>
+options.UseNpgsql(builder.Configuration.GetConnectionString("BlogAuthDbConnectionString")));
+
+builder.Services.AddIdentity<IdentityRole, IdentityUser>()
+    .AddEntityFrameworkStores<AuthDbContext>();
+
 builder.Services.AddScoped<ITagRepository, TagRepository>();
 builder.Services.AddScoped<IBlogPostRepository, BlogPostRepository>();
-
 builder.Services.AddScoped<IFileHelper, FileHelper>();
 
 var app = builder.Build();
@@ -33,6 +39,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>
