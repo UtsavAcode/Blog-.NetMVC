@@ -17,7 +17,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDbContext<AuthDbContext>(options =>
 options.UseNpgsql(builder.Configuration.GetConnectionString("BlogAuthDbConnectionString")));
 
-builder.Services.AddIdentity<IdentityRole, IdentityUser>()
+builder.Services.AddIdentity<IdentityUser,IdentityRole>()
     .AddEntityFrameworkStores<AuthDbContext>();
 
 builder.Services.AddScoped<ITagRepository, TagRepository>();
