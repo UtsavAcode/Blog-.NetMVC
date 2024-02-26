@@ -19,28 +19,25 @@ namespace EmployeeMVC.Data
             //Seed Roles (User, Admin, SuperAdmin)
             var superAdminRoleId = "0a0fe3d1-83f2-4bc7-9579-d40c5c0016c3";
             var adminRoleId = "2ff7ed94-68a2-472a-a28e-4389f4e220b1";
-            var userRoleId = "fcbbac14-0548-45a4-aaf2-6bd00d3ab396";
+            var userRoleId = Guid.NewGuid().ToString();
 
             var roles = new List<IdentityRole>
             {
-                new IdentityRole
-                {
+                new() {
                     Name = "SuperAdmin",
                     NormalizedName = "SuperAdmin",
                     Id = superAdminRoleId,
                     ConcurrencyStamp = superAdminRoleId
                 },
 
-                new IdentityRole
-                {
+                new() {
                     Name = "Admin",
                     NormalizedName = "Admin",
                     Id = adminRoleId,
                     ConcurrencyStamp = adminRoleId
                 },
 
-                new IdentityRole
-                {
+                new() {
                     Name = "User",
                     NormalizedName = "User",
                     Id = userRoleId,
@@ -56,8 +53,8 @@ namespace EmployeeMVC.Data
             {
                 UserName = "superadmin@blog.com",
                 Email = "superadmin@blog.com",
-                NormalizedEmail = "superadmin@blog.com".ToUpper(),
-                NormalizedUserName = "superadmin@blog.com".ToUpper(),
+                NormalizedEmail = "superadmin@blog.com",
+                NormalizedUserName = "superadmin@blog.com",
                 Id = superAdminId
             };
 

@@ -1,16 +1,20 @@
-﻿using EmployeeMVC.Models.ViewModels;
+﻿using EmployeeMVC.Data;
+using EmployeeMVC.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace EmployeeMVC.Controllers
 {
     public class AccountController : Controller
     {
         private readonly UserManager<IdentityUser> userManager;
+        private readonly AuthDbContext _context;
 
-        public AccountController(UserManager<IdentityUser> userManager)
+        public AccountController(UserManager<IdentityUser> userManager, AuthDbContext context)
         {
             this.userManager = userManager;
+            this._context = context;
         }
 
         [HttpGet]
@@ -34,13 +38,28 @@ namespace EmployeeMVC.Controllers
             if (identityResult.Succeeded)
             {
                 //assign this user the "User" role
-                var roleIdentityResult = await userManager.AddToRoleAsync(identityUser,"User");
 
-                if(roleIdentityResult.Succeeded)
+                /*       var roleIdentityResult = await userManager.AddToRoleAsync(identityUser,"User");
+
+                       if(roleIdentityResult.Succeeded)
+                       {
+                           return RedirectToAction("Register");
+                       }*/
+
+
+                var userRole = await _context.Roles.FirstOrDefaultAsync(r => r.Name == "User");
+                if (userRole != null)
                 {
-                    return RedirectToAction("Register");
+                    var roleIdentityResult = await userManager.AddToRoleAsync(identityUser, userRole.Id);
+                    if (roleIdentityResult.Succeeded)
+                    {
+                        return RedirectToAction("Register");
+                    }
+                    else
+                    {
+                        //error notification
+                    }
                 }
-
             }
 
             return View();
