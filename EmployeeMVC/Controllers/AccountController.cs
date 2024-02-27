@@ -50,7 +50,7 @@ namespace EmployeeMVC.Controllers
                 var userRole = await _context.Roles.FirstOrDefaultAsync(r => r.Name == "User");
                 if (userRole != null)
                 {
-                    var roleIdentityResult = await userManager.AddToRoleAsync(identityUser, userRole.Id);
+                    var roleIdentityResult = await userManager.AddToRoleAsync(identityUser, "User");
                     if (roleIdentityResult.Succeeded)
                     {
                         return RedirectToAction("Register");
