@@ -10,13 +10,14 @@ namespace EmployeeMVC.Data
         {
 
         }
-        
 
-        public DbSet<BlogPost>BlogPosts{get; set;}
+        public DbSet<BlogPostLike> PostLikes { get; set; }
+        public DbSet<BlogPost>BlogPosts{ get; set; }
         public DbSet<Tag> Tags { get; set;}
+       
 
-     
 
-      
+
+
     }
 }
