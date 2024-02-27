@@ -73,9 +73,13 @@ namespace EmployeeMVC.Controllers
 
 
         [HttpGet]
-        public IActionResult Login()
+        public IActionResult Login(string ReturnUrl)
         {
-            return View();
+            var model = new LoginViewModel
+            {
+                ReturnUrl = ReturnUrl
+            };
+            return View(model);
         }
 
         [HttpPost]
@@ -86,6 +90,10 @@ namespace EmployeeMVC.Controllers
             
             if (signInResult != null && signInResult.Succeeded)
             {
+                if (!string.IsNullOrWhiteSpace(login.ReturnUrl))
+                {
+                    return Redirect(login.ReturnUrl);
+                }
                 return RedirectToAction("Index", "Home");
             }
             //show errors
