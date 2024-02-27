@@ -9,7 +9,7 @@ namespace EmployeeMVC.Controllers
     public class AccountController : Controller
     {
         private readonly UserManager<IdentityUser> userManager;
-        private readonly SignInManager<IdentityUser> siginManager;
+        private readonly SignInManager<IdentityUser> signinManager;
         private readonly AuthDbContext _context;
 
         public AccountController(UserManager<IdentityUser> userManager, 
@@ -17,7 +17,7 @@ namespace EmployeeMVC.Controllers
             ,AuthDbContext context)
         {
             this.userManager = userManager;
-            this.siginManager = siginManager;
+            this.signinManager = siginManager;
             this._context = context;
         }
 
@@ -81,7 +81,7 @@ namespace EmployeeMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel login)
         {
-            var signInResult = await siginManager.PasswordSignInAsync(login.Username,
+            var signInResult = await signinManager.PasswordSignInAsync(login.Username,
                 login.Password, false, false);
             
             if (signInResult != null && signInResult.Succeeded)
@@ -92,6 +92,13 @@ namespace EmployeeMVC.Controllers
             return View();
 
 
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Logout()
+        {
+            await signinManager.SignOutAsync();
+            return RedirectToAction("Login");
         }
     }
 }
