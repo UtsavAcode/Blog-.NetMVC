@@ -17,7 +17,7 @@ namespace EmployeeMVC.Controllers
             this.tagRepository = tagRepository;
         }
 
-        [Authorize]
+        [Authorize(Roles ="Admin")]
         [HttpGet]
         public IActionResult Add()
         {

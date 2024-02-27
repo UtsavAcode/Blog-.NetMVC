@@ -100,5 +100,11 @@ namespace EmployeeMVC.Controllers
             await signinManager.SignOutAsync();
             return RedirectToAction("Login");
         }
+
+        [HttpGet]
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
     }
 }
