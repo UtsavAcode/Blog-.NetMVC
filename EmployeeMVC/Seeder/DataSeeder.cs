@@ -50,7 +50,7 @@ namespace EmployeeMVC.Seeder
             IdentityUser user = new IdentityUser()
             {
                 Id = userId.ToString(),
-                UserName = "SperAdmin",
+                UserName = "SuperAdmin",
                 NormalizedUserName = "SUPERADMIN",
                 Email = "superadmin@gmail.com",
                 LockoutEnabled = true,

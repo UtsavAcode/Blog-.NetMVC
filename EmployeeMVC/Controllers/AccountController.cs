@@ -9,11 +9,15 @@ namespace EmployeeMVC.Controllers
     public class AccountController : Controller
     {
         private readonly UserManager<IdentityUser> userManager;
+        private readonly SignInManager<IdentityUser> siginManager;
         private readonly AuthDbContext _context;
 
-        public AccountController(UserManager<IdentityUser> userManager, AuthDbContext context)
+        public AccountController(UserManager<IdentityUser> userManager, 
+            SignInManager<IdentityUser> siginManager
+            ,AuthDbContext context)
         {
             this.userManager = userManager;
+            this.siginManager = siginManager;
             this._context = context;
         }
 
@@ -66,6 +70,28 @@ namespace EmployeeMVC.Controllers
         }
 
         //show the error Notification
-    
+
+
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginViewModel login)
+        {
+            var signInResult = await siginManager.PasswordSignInAsync(login.Username,
+                login.Password, false, false);
+            
+            if (signInResult != null && signInResult.Succeeded)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            //show errors
+            return View();
+
+
+        }
     }
 }
