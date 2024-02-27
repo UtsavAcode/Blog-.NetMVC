@@ -2,6 +2,7 @@
 using EmployeeMVC.Models.Domain;
 using EmployeeMVC.Models.ViewModels;
 using EmployeeMVC.Repository.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,7 +17,7 @@ namespace EmployeeMVC.Controllers
             this.tagRepository = tagRepository;
         }
 
-
+        [Authorize]
         [HttpGet]
         public IActionResult Add()
         {
