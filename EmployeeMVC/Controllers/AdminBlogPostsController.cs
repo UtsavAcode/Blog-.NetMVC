@@ -2,11 +2,14 @@
 using EmployeeMVC.Models.Domain;
 using EmployeeMVC.Models.ViewModels;
 using EmployeeMVC.Repository.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
+
 namespace EmployeeMVC.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AdminBlogPostsController : Controller
     {
         private readonly ITagRepository tagRepository;

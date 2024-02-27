@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EmployeeMVC.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AdminTagsController : Controller
     {
         private readonly ITagRepository tagRepository;
@@ -17,7 +18,7 @@ namespace EmployeeMVC.Controllers
             this.tagRepository = tagRepository;
         }
 
-        [Authorize(Roles ="Admin")]
+        
         [HttpGet]
         public IActionResult Add()
         {
