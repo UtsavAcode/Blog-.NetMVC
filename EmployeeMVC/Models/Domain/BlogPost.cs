@@ -17,5 +17,6 @@
         //One BlogPost can have many tags and one tag can have many BlogPost.
         public ICollection<Tag> Tags { get; set; }
         public ICollection<BlogPostLike> Likes { get; set; }
+        public ICollection<BlogPostComment> Comments { get; set; }
     }
 }
