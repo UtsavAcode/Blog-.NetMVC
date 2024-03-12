@@ -26,7 +26,8 @@
                         <i class="bi bi-heart"></i>
                     </a>
                     }
-                    <span>@Model.TotalLikes</span> likes
+
+                    <span id="totalLikes">@Model.TotalLikes</span> likes
                 </div>
 
 
@@ -55,6 +56,21 @@
 @section Scripts{
     <script>
         const btnLikeElement = document.getElementById('btnLike');
+        const totalLikesElement = document.getElementById('totalLikes');
+
+        async function getTotalLikes() {
+            fetch('/api/blogPostLike/@Model.Id/totalLikes', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': '*/*'
+                }
+            })
+                .then(data => data.json())
+                .then(result => totalLikesElement.innerHTML = result);
+        }
+
+
 
         async function addLikeForBlog() {
             fetch('/api/BlogPostLike/Add', {
@@ -69,7 +85,11 @@
                 })
 
             })
-                .then(console.log('Request finished'));
+                .then(()=>{
+                    btnLikeElement.innerHTML = '<i class="bi bi-heart-fill"></i>';
+                    btnLikeElement.removeEventListener('click', addLikeForBlog);
+                    getTotalLikes();
+                });
         }
 
         btnLikeElement.addEventListener('click', addLikeForBlog);

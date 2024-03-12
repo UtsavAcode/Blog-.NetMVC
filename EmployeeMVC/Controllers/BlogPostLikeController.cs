@@ -31,5 +31,14 @@ namespace EmployeeMVC.Controllers
 
             return Ok();
         }
+
+        [HttpGet]
+        [Route("{blogPostId:Guid}/totalLikes")]
+
+        public async Task<IActionResult> GetTotalLikesForBlog([FromRoute] Guid blogPostId)
+        {
+            var totalLikes = await likeRepo.GetTotalLikes(blogPostId);
+            return Ok(totalLikes);
+        }
     }
 }
