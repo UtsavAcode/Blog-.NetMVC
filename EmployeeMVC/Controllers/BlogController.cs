@@ -1,4 +1,5 @@
-﻿using EmployeeMVC.Models.ViewModels;
+﻿using EmployeeMVC.Models.Domain;
+using EmployeeMVC.Models.ViewModels;
 using EmployeeMVC.Repository.Interface;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -11,17 +12,22 @@ namespace EmployeeMVC.Controllers
         private readonly IBlogPostLikeRepository _likesRepo;
         private readonly SignInManager<IdentityUser> signInManager;
         private readonly UserManager<IdentityUser> userManager;
+        private readonly IBlogPostCommentRepository commentRepo;
 
         public BlogController(IBlogPostRepository blogRepo,
             IBlogPostLikeRepository likesRepo
-            ,SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager)
+            , SignInManager<IdentityUser> signInManager,
+            UserManager<IdentityUser> userManager,
+            IBlogPostCommentRepository commentRepo)
         {
             _blogRepo = blogRepo;
             _likesRepo = likesRepo;
             this.signInManager = signInManager;
             this.userManager = userManager;
+            this.commentRepo = commentRepo;
         }
+
+        [HttpGet]
         public async Task<IActionResult> Index(string urlHandle)
         {
             var blog = await _blogRepo.GetByUrlHandleAsync(urlHandle);
@@ -35,15 +41,15 @@ namespace EmployeeMVC.Controllers
                 if (signInManager.IsSignedIn(User))
                 {
                     //Get Likes for this blog for this user.
-                    var likesForBlog =   await _likesRepo.GetLikesForBlog(blog.Id);
+                    var likesForBlog = await _likesRepo.GetLikesForBlog(blog.Id);
 
                     var userId = userManager.GetUserId(User);
-                    
-                    if(userId != null)
+
+                    if (userId != null)
                     {
                         var likeFromUser = likesForBlog.FirstOrDefault(x => x.UserId == Guid.Parse(userId));
                         liked = likeFromUser != null;
-                        
+
                     }
                 }
 
@@ -67,6 +73,25 @@ namespace EmployeeMVC.Controllers
                 };
             }
             return View(blogDetailsViewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Index(BlogDetailsViewModel blogDetailsViewModel)
+        {
+            if (signInManager.IsSignedIn(User))
+            {
+                var domainModel = new BlogPostComment
+                {
+                    BlogPostId = blogDetailsViewModel.Id,
+                    Description = blogDetailsViewModel.CommentDescription,
+                    UserId = Guid.Parse(userManager.GetUserId(User)),
+                    DateAdded = DateTime.Now.ToUniversalTime(),
+                };
+
+                await commentRepo.AddAsync(domainModel);
+                return RedirectToAction("Index","Home", new {urlHandle = blogDetailsViewModel.UrlHandle});
+            }
+            return View ();
         }
     }
 }

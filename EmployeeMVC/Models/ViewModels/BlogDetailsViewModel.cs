@@ -18,5 +18,6 @@ namespace EmployeeMVC.Models.ViewModels
         public int TotalLikes { get; set; }
 
         public bool Liked { get; set; }
+        public string CommentDescription { get; set; }
     }
 }
