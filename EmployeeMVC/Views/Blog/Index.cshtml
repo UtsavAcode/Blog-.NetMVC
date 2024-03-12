@@ -1,5 +1,7 @@
-﻿@model EmployeeMVC.Models.ViewModels.BlogDetailsViewModel
-
+﻿@using Microsoft.AspNetCore.Identity
+@model EmployeeMVC.Models.ViewModels.BlogDetailsViewModel
+@inject SignInManager<IdentityUser> signinManager
+@inject UserManager<IdentityUser> userManager
 @{
     ViewData["Title"] = Model.PageTitle;
 
@@ -19,7 +21,12 @@
                     <span class="text-secondary">@Model.PublishedDate.ToShortDateString()</span>
                 </div>
                 <div class="mb-3">
-                    <span><i class="bi bi-heart"></i> @Model.TotalLikes</span> likes
+                    @if(signinManager.IsSignedIn(User)){
+                    <a id="btnLike" style="cursor:pointer;">
+                        <i class="bi bi-heart"></i>
+                    </a>
+                    }
+                    <span>@Model.TotalLikes</span> likes
                 </div>
 
 
@@ -44,3 +51,27 @@
         </div>
     </div>
 </div>
+
+@section Scripts{
+    <script>
+        const btnLikeElement = document.getElementById('btnLike');
+
+        async function addLikeForBlog() {
+            fetch('/api/BlogPostLike/Add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': '*/*'
+                },
+                body: JSON.stringify({
+                    blogPostId: '@Model.Id',
+                    userId: '@userManager.GetUserId(User)'
+                })
+
+            })
+                .then(console.log('Request finished'));
+        }
+
+        btnLikeElement.addEventListener('click', addLikeForBlog);
+    </script>
+}

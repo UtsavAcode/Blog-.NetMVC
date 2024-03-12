@@ -7,12 +7,12 @@ namespace EmployeeMVC.Controllers
     public class BlogController : Controller
     {
         private readonly IBlogPostRepository _blogRepo;
-        private readonly IBlogPostLikeRepository likesRepo;
+        private readonly IBlogPostLikeRepository _likesRepo;
 
         public BlogController(IBlogPostRepository blogRepo, IBlogPostLikeRepository likesRepo)
         {
             _blogRepo = blogRepo;
-            this.likesRepo = likesRepo;
+            _likesRepo = likesRepo;
         }
         public async Task<IActionResult> Index(string urlHandle)
         {
@@ -22,7 +22,7 @@ namespace EmployeeMVC.Controllers
 
             if (blog != null)
             {
-                var totalLikes = await likesRepo.GetTotalLikes(blog.Id);
+                var totalLikes = await _likesRepo.GetTotalLikes(blog.Id);
 
                 blogDetailsViewModel = new BlogDetailsViewModel
 

@@ -1,4 +1,5 @@
 ﻿using EmployeeMVC.Data;
+using EmployeeMVC.Models.Domain;
 using EmployeeMVC.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +13,14 @@ namespace EmployeeMVC.Repository.Implimentation
         {
             this.context = context;
         }
+
+        public async Task<BlogPostLike> AddLikeForBlog(BlogPostLike blogPostLike)
+        {
+            await context.PostLikes.AddAsync(blogPostLike);
+            await context.SaveChangesAsync();
+            return blogPostLike;
+        }
+
         public async Task<int> GetTotalLikes(Guid blogPostId)
         {
             return await context.PostLikes
