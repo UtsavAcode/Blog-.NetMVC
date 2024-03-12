@@ -1,5 +1,6 @@
 ﻿using EmployeeMVC.Models.ViewModels;
 using EmployeeMVC.Repository.Interface;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeMVC.Controllers
@@ -8,21 +9,44 @@ namespace EmployeeMVC.Controllers
     {
         private readonly IBlogPostRepository _blogRepo;
         private readonly IBlogPostLikeRepository _likesRepo;
+        private readonly SignInManager<IdentityUser> signInManager;
+        private readonly UserManager<IdentityUser> userManager;
 
-        public BlogController(IBlogPostRepository blogRepo, IBlogPostLikeRepository likesRepo)
+        public BlogController(IBlogPostRepository blogRepo,
+            IBlogPostLikeRepository likesRepo
+            ,SignInManager<IdentityUser> signInManager,
+            UserManager<IdentityUser> userManager)
         {
             _blogRepo = blogRepo;
             _likesRepo = likesRepo;
+            this.signInManager = signInManager;
+            this.userManager = userManager;
         }
         public async Task<IActionResult> Index(string urlHandle)
         {
             var blog = await _blogRepo.GetByUrlHandleAsync(urlHandle);
             var blogDetailsViewModel = new BlogDetailsViewModel();
-
+            var liked = false;
 
             if (blog != null)
             {
                 var totalLikes = await _likesRepo.GetTotalLikes(blog.Id);
+
+                if (signInManager.IsSignedIn(User))
+                {
+                    //Get Likes for this blog for this user.
+                    var likesForBlog =   await _likesRepo.GetLikesForBlog(blog.Id);
+
+                    var userId = userManager.GetUserId(User);
+                    
+                    if(userId != null)
+                    {
+                        var likeFromUser = likesForBlog.FirstOrDefault(x => x.UserId == Guid.Parse(userId));
+                        liked = likeFromUser != null;
+                        
+                    }
+                }
+
 
                 blogDetailsViewModel = new BlogDetailsViewModel
 
@@ -39,6 +63,7 @@ namespace EmployeeMVC.Controllers
                     Visible = blog.Visible,
                     Tags = blog.Tags,
                     TotalLikes = totalLikes,
+                    Liked = liked,
                 };
             }
             return View(blogDetailsViewModel);

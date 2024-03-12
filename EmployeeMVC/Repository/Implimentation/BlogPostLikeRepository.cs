@@ -21,6 +21,11 @@ namespace EmployeeMVC.Repository.Implimentation
             return blogPostLike;
         }
 
+        public async Task<IEnumerable<BlogPostLike>> GetLikesForBlog(Guid blogPostId)
+        {
+            return await context.PostLikes.Where(x => x.BlogPostId == blogPostId).ToListAsync();
+        }
+
         public async Task<int> GetTotalLikes(Guid blogPostId)
         {
             return await context.PostLikes

@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EmployeeMVC.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240227160950_new likeee")]
-    partial class newlikeee
+    [Migration("20240312085108_lik")]
+    partial class lik
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
