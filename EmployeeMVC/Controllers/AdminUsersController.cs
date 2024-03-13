@@ -31,7 +31,7 @@ namespace EmployeeMVC.Controllers
                     Email = user.Email,
                 });
             }
-            return View();
+            return View(usersViewModel);
         }
     }
 }
