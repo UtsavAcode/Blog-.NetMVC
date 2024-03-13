@@ -1,0 +1,41 @@
+﻿@model EmployeeMVC.Models.ViewModels.UserViewModel
+
+<div class="bg-secondary bg-opacity-10 py-2">
+    <div class="container">
+        <h1>Users</h1>
+    </div>
+</div> 
+
+
+@if (Model != null && Model.Users.Any())
+{
+    <div>
+        <div class="container py-5">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>UserName</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var user in Model.Users)
+                    {
+                        <tr>
+                            <td>@user.Id</td>
+                            <td>@user.UserName</td>
+                            <td>@user.Email</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+
+else
+{
+    <h1 class="text-danger">No Users Found!!! ☠️☠️☠️☠️☠</h1>
+}
