@@ -4,13 +4,22 @@
     <div class="container">
         <h1>Users</h1>
     </div>
-</div> 
+</div>
 
 
-@if (Model.Users != null && Model.Users.Any())
-{
-    <div>
-        <div class="container py-5">
+
+<div>
+    <div class="container py-5">
+
+        <div class="mb-3 d-flex justify-content-end">
+            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#modalCreateUser">
+                Create User
+            </button>
+        </div>
+
+
+        @if (Model.Users != null && Model.Users.Any())
+        {
             <table class="table table-striped">
                 <thead>
                     <tr class="bg-dark text-light">
@@ -31,11 +40,63 @@
                     }
                 </tbody>
             </table>
+        }
+        else
+        {
+            <h1 class="text-danger">No Users Found!!! ☠️☠️☠️☠️☠</h1>
+        }
+
+    </div>
+</div>
+
+<form method="post">
+    <div class="modal fade" id="modalCreateUser" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="modalCreateUser">Create New User</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">User Name</label>
+                        <input type="text" class="form-control" asp-for="UserName" />
+
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" asp-for="Email" />
+
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Password</label>
+                        <input type="password" class="form-control" asp-for="Password" />
+
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="checkForUser" value="User" checked disabled />
+                            <label class="form-check-label" for="checkForUser">User</label>
+                        </div>
+
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="checkForAdmin"
+                                   asp-for="AdminRoleChecbox" />
+
+                            <label class="form-check-label" for="checkForAdmin">Admin</label>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
         </div>
     </div>
-}
 
-else
-{
-    <h1 class="text-danger">No Users Found!!! ☠️☠️☠️☠️☠</h1>
-}
+</form>

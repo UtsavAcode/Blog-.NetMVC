@@ -1,6 +1,7 @@
 ﻿using EmployeeMVC.Models.ViewModels;
 using EmployeeMVC.Repository.Interface;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeMVC.Controllers
@@ -9,10 +10,13 @@ namespace EmployeeMVC.Controllers
     public class AdminUsersController : Controller
     {
         private readonly IUserRepository userRepo;
+        private readonly UserManager<IdentityUser> userManager;
 
-        public AdminUsersController(IUserRepository userRepo)
+        public AdminUsersController(IUserRepository userRepo,
+            UserManager<IdentityUser> userManager)
         {
             this.userRepo = userRepo;
+            this.userManager = userManager;
         }
 
         [HttpGet]
@@ -32,6 +36,47 @@ namespace EmployeeMVC.Controllers
                 });
             }
             return View(usersViewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> List(UserViewModel request)
+        {
+            var identityUser = new IdentityUser { 
+                UserName = request.UserName,
+                Email = request.Email,
+            };
+
+            var identityResult = await userManager.CreateAsync(identityUser, request.Password);
+
+            if(identityResult != null)
+            {
+                if(identityResult.Succeeded)
+                {
+                    //assigning the roles
+                    var roles = new List<string> { "User" };
+
+                    if (request.AdminRoleChecbox)
+                    {
+                        roles.Add("Admin");
+
+                    }
+
+                    foreach (var role in roles)
+                    {
+                        identityResult = await userManager.AddToRoleAsync(identityUser, role);
+
+                        if (identityResult != null && identityResult.Succeeded)
+                        {
+                            return RedirectToAction("List", "AdminUsers");
+                        }
+                    }
+                  
+
+
+                }
+            }
+
+            return View();
         }
     }
 }
