@@ -67,10 +67,11 @@ namespace EmployeeMVC.Controllers
 
                         if (identityResult != null && identityResult.Succeeded)
                         {
-                            return RedirectToAction("List", "AdminUsers");
+                            //success
                         }
                     }
-                  
+                    return RedirectToAction("List", "AdminUsers");
+
 
 
                 }

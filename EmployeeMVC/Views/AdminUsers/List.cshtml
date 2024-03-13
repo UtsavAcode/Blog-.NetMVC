@@ -82,12 +82,15 @@
                             <label class="form-check-label" for="checkForUser">User</label>
                         </div>
 
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="checkForAdmin"
-                                   asp-for="AdminRoleChecbox" />
+                        @if (User.IsInRole("SuperAdmin"))
+                        {
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="checkForAdmin"
+                                       asp-for="AdminRoleChecbox" />
 
-                            <label class="form-check-label" for="checkForAdmin">Admin</label>
-                        </div>
+                                <label class="form-check-label" for="checkForAdmin">Admin</label>
+                            </div>
+                        }
                     </div>
 
                 </div>
