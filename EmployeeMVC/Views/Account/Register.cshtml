@@ -1,12 +1,16 @@
 ﻿@model EmployeeMVC.Models.ViewModels.RegisterViewModel
 
-<div class="container mx-auto">
-    <div class="row justify-content-center">
-        <div class="col-12 col-lg-6">
-
-            <h1 class="mt-3 mb-3 h3">
+@section Styles {
+    <link rel="stylesheet" href="~/css/Login.css" />
+}
+<div class="ccc">
+    <div class="containess">
+        
+        <div class="head">
+            <h1 >
                 Register
             </h1>
+        </div>
             <form method="post">
 
                 <div class="mb-3">
@@ -27,9 +31,11 @@
                     <span class="text-danger"  asp-validation-for="Password"></span>
                 </div>
 
+               <div class="linkSec">
                 <div class="mb-3">
-                    <button class="submit" class="btn btn-dark">Register</button>
+                    <button type="submit" class=" btn btn-outline-light">Register</button>
                 </div>
+               </div>
             </form>
         </div>
     </div>
