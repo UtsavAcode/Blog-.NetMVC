@@ -30,41 +30,46 @@ namespace EmployeeMVC.Controllers
         [HttpPost]
         public async Task<IActionResult>Register(RegisterViewModel registerViewModel)
         {
-            var identityUser = new IdentityUser
+
+            if (ModelState.IsValid)
             {
-                UserName = registerViewModel.Username,
-                Email = registerViewModel.Email
-            };
-
-          
-            var identityResult = await userManager.CreateAsync(identityUser, registerViewModel.Password);
-
-            if (identityResult.Succeeded)
-            {
-                //assign this user the "User" role
-
-                /*       var roleIdentityResult = await userManager.AddToRoleAsync(identityUser,"User");
-
-                       if(roleIdentityResult.Succeeded)
-                       {
-                           return RedirectToAction("Register");
-                       }*/
-
-
-                var userRole = await _context.Roles.FirstOrDefaultAsync(r => r.Name == "User");
-                if (userRole != null)
+                var identityUser = new IdentityUser
                 {
-                    var roleIdentityResult = await userManager.AddToRoleAsync(identityUser, "User");
-                    if (roleIdentityResult.Succeeded)
+                    UserName = registerViewModel.Username,
+                    Email = registerViewModel.Email
+                };
+
+
+                var identityResult = await userManager.CreateAsync(identityUser, registerViewModel.Password);
+
+                if (identityResult.Succeeded)
+                {
+                    //assign this user the "User" role
+
+                    /*       var roleIdentityResult = await userManager.AddToRoleAsync(identityUser,"User");
+
+                           if(roleIdentityResult.Succeeded)
+                           {
+                               return RedirectToAction("Register");
+                           }*/
+
+
+                    var userRole = await _context.Roles.FirstOrDefaultAsync(r => r.Name == "User");
+                    if (userRole != null)
                     {
-                        return RedirectToAction("Login");
-                    }
-                    else
-                    {
-                        //error notification
+                        var roleIdentityResult = await userManager.AddToRoleAsync(identityUser, "User");
+                        if (roleIdentityResult.Succeeded)
+                        {
+                            return RedirectToAction("Login");
+                        }
+                        else
+                        {
+                            //error notification
+                        }
                     }
                 }
             }
+            
 
             return View();
         }
