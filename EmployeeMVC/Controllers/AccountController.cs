@@ -90,6 +90,9 @@ namespace EmployeeMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel login)
         {
+            if (!ModelState.IsValid) {
+                return View();
+            }
             var signInResult = await signinManager.PasswordSignInAsync(login.Username,
                 login.Password, false, false);
             

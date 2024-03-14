@@ -9,13 +9,15 @@
 <div class="container py-5">
     <form method="post">
         <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="name" placeholder="Name" asp-for="Name">
+            <input type="text" class="form-control" id="name" placeholder="Name" asp-for="Name" required>
             <label for="name">Name</label>
+            <span class="text-danger" asp-validation-for="Name"></span>
         </div>
 
         <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="displayName" placeholder="Display Name" asp-for="DisplayName">
+            <input type="text" class="form-control" id="displayName" placeholder="Display Name" asp-for="DisplayName" required>
             <label for="displayName">Display Name</label>
+            <span class="text-danger" asp-validation-for="DisplayName"></span>
         </div>
 
         <button class="btn btn-dark">Save</button>
