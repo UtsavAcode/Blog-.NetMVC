@@ -1,4 +1,5 @@
-﻿using EmployeeMVC.Data;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using EmployeeMVC.Data;
 using EmployeeMVC.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -11,14 +12,18 @@ namespace EmployeeMVC.Controllers
         private readonly UserManager<IdentityUser> userManager;
         private readonly SignInManager<IdentityUser> signinManager;
         private readonly AuthDbContext _context;
+        private readonly INotyfService _notfy;
 
         public AccountController(UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> siginManager
-            , AuthDbContext context)
+            , AuthDbContext context,
+            INotyfService notfy
+            )
         {
             this.userManager = userManager;
             this.signinManager = siginManager;
             this._context = context;
+            _notfy = notfy;
         }
 
         [HttpGet]
@@ -60,7 +65,9 @@ namespace EmployeeMVC.Controllers
                         var roleIdentityResult = await userManager.AddToRoleAsync(identityUser, "User");
                         if (roleIdentityResult.Succeeded)
                         {
+                            _notfy.Success("Register Success",3);
                             return RedirectToAction("Login");
+                            
                         }
                         else
                         {
@@ -103,6 +110,8 @@ namespace EmployeeMVC.Controllers
                     }
                     return RedirectToAction("Index", "Home");
                 }
+
+                _notfy.Error("Login Failed. Please Login Again",3);
             }
 
             //show errors

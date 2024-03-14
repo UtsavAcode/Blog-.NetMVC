@@ -1,3 +1,4 @@
+using AspNetCoreHero.ToastNotification;
 using EmployeeMVC.Data;
 using EmployeeMVC.Helper.Implementation;
 using EmployeeMVC.Helper.Interface;
@@ -20,6 +21,13 @@ options.UseNpgsql(builder.Configuration.GetConnectionString("BlogAuthDbConnectio
 builder.Services.AddIdentity<IdentityUser,IdentityRole>()
     .AddEntityFrameworkStores<AuthDbContext>();
 
+builder.Services.AddNotyf(config =>
+{
+    config.DurationInSeconds = 5; // Adjust duration as needed
+    config.IsDismissable = true;
+    config.Position = NotyfPosition.BottomRight; // Choose preferred position
+});
+
 builder.Services.Configure<IdentityOptions>(options =>
 {
     // Default password settings
@@ -30,6 +38,9 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Password.RequiredLength = 6;
     options.Password.RequiredUniqueChars = 1;
 });
+
+
+
 
 
 builder.Services.AddScoped<ITagRepository, TagRepository>();
