@@ -10,6 +10,6 @@ namespace EmployeeMVC.Models.ViewModels
         [Required]
         [MinLength(6, ErrorMessage ="The password must be atleast 6 characters long.")]
         public string Password { get; set; }
-        public string ReturnUrl { get; set; }
+        public string? ReturnUrl { get; set; }
     }
 }

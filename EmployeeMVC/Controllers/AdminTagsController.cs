@@ -26,10 +26,15 @@ namespace EmployeeMVC.Controllers
         }
 
         [HttpPost]
+
         public async Task<IActionResult> Add(AddTagRequest addTagRequest)
         {
+            ValidateAddTagRequest(addTagRequest);
             //Mapping the Models.Domain.Tag entity to AddTagRequest Model
-
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
             var tag = new Tag()
             {
 
@@ -108,6 +113,17 @@ namespace EmployeeMVC.Controllers
                 return RedirectToAction("List");
             }
             return RedirectToAction("Edit", new { id = editTagRequest.Id });
+        }
+
+        private void ValidateAddTagRequest(AddTagRequest request)
+        {
+            if(request.Name !=null && request.DisplayName!=null)
+            {
+                if(request.Name == request.DisplayName)
+                {
+                    ModelState.AddModelError("DisplayName", "Name cannot be the same as DisplayName");
+                }
+            }
         }
     }
 }

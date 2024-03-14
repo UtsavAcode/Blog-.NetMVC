@@ -12,9 +12,9 @@ namespace EmployeeMVC.Controllers
         private readonly SignInManager<IdentityUser> signinManager;
         private readonly AuthDbContext _context;
 
-        public AccountController(UserManager<IdentityUser> userManager, 
+        public AccountController(UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> siginManager
-            ,AuthDbContext context)
+            , AuthDbContext context)
         {
             this.userManager = userManager;
             this.signinManager = siginManager;
@@ -28,7 +28,7 @@ namespace EmployeeMVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult>Register(RegisterViewModel registerViewModel)
+        public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
         {
 
             if (ModelState.IsValid)
@@ -69,7 +69,7 @@ namespace EmployeeMVC.Controllers
                     }
                 }
             }
-            
+
 
             return View();
         }
@@ -90,20 +90,21 @@ namespace EmployeeMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel login)
         {
-            if (!ModelState.IsValid) {
-                return View();
-            }
-            var signInResult = await signinManager.PasswordSignInAsync(login.Username,
-                login.Password, false, false);
-            
-            if (signInResult != null && signInResult.Succeeded)
+            if (ModelState.IsValid)
             {
-                if (!string.IsNullOrWhiteSpace(login.ReturnUrl))
+                var signInResult = await signinManager.PasswordSignInAsync(login.Username,
+              login.Password, false, false);
+
+                if (signInResult != null && signInResult.Succeeded)
                 {
-                    return Redirect(login.ReturnUrl);
+                    if (!string.IsNullOrWhiteSpace(login.ReturnUrl))
+                    {
+                        return Redirect(login.ReturnUrl);
+                    }
+                    return RedirectToAction("Index", "Home");
                 }
-                return RedirectToAction("Index", "Home");
             }
+
             //show errors
             return View();
 
