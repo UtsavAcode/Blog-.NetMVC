@@ -124,7 +124,7 @@ namespace EmployeeMVC.Controllers
         public async Task<IActionResult> Logout()
         {
             await signinManager.SignOutAsync();
-            return RedirectToAction("Login");
+            return RedirectToAction("Home","Home");
         }
 
         [HttpGet]

@@ -28,6 +28,7 @@ builder.Services.AddNotyf(config =>
     config.Position = NotyfPosition.BottomRight; // Choose preferred position
 });
 
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 builder.Services.Configure<IdentityOptions>(options =>
 {
     // Default password settings
@@ -79,6 +80,6 @@ app.UseEndpoints(endpoints =>
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Home}/{id?}");
 
 app.Run();

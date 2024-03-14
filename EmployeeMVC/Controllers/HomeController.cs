@@ -19,6 +19,11 @@ namespace EmployeeMVC.Controllers
             _tag = tag;
         }
 
+
+        public IActionResult Home()
+        {
+            return View();
+        }
         public async Task<IActionResult> Index()
         {
             var blogs = await _blog.GetAllAsync();
