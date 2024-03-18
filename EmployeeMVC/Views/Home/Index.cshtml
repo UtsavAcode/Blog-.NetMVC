@@ -4,60 +4,73 @@
     ViewData["Title"] = "Home Page";
 }
 
+@section Styles {
+    <link rel="stylesheet" href="~/css/BlogPage.css" />
+}
 
 
-<div class="container mb-1">
-    <div class="row justify-content-center">
-        <div class="col-6">
-            @if(Model !=null && Model.Tags.Any())
-            {
-                foreach(var tag in Model.Tags)
+
+<div class="view">
+    <div class="container mb-1">
+        <div class="row justify-content-center">
+            <div class="col-6">
+
+                @if (Model != null && Model.Tags.Any())
                 {
-                    <span class="badge bg-dark me-1">
-                        @tag.Name
-                    </span>
+                    foreach (var tag in Model.Tags)
+                    {
+                        <span class="badge bg-dark me-1">
+                            @tag.Name
+                        </span>
+                    }
                 }
-            }
+
+            </div>
         </div>
     </div>
-</div>
 
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-6">
-            @if(Model !=null && Model.BlogPosts.Any())
+    <div class="page">
+
+        @if (Model != null && Model.BlogPosts.Any())
+        {
+            foreach (var blog in Model.BlogPosts)
             {
-                foreach(var blog in Model.BlogPosts)
-                {
-                    <div class="mb-5 bg-light box-shadow">
-                        <img src="~/Images/@blog.FeaturedImageUrl"
-                        alt="@blog.Heading"
-                        class="mb-2 d-block img-fluid" />
 
-                        <h2 class="mb-4">@blog.Heading</h2>
-                        <p class="mb-4">
-                            Author: @blog.Author
-                            <br />
-                            Published Date: @blog.PublishedDate.ToShortDateString()
-                        </p>
+                <div class="mainPart">
+                    <div class="image-sec">
+                        <img src="~/Images/@blog.FeaturedImageUrl" alt="@blog.Heading" />
 
-                        <p class="mb-4">
-                            @foreach(var tag in blog.Tags)
-                            {
-                                <span class="badge bg-secondary me-1">@tag.Name</span>
-                            }
-                        </p>
 
-                        <p class="mb-4">@blog.ShortDescription</p>
-
-                        <a class="btn btn-dark"
-                            asp-action="Index"
-                            asp-controller="Blog"
-                            asp-route-urlHandle="@blog.UrlHandle"
-                        >Read More</a>
                     </div>
-                }
+
+                    <h2 class="blog-title">@blog.Heading</h2>
+                    <div class="auth-date">
+                        <p class="ms-1">@blog.Author</p>
+                        <p class="me-3">@blog.PublishedDate.ToShortDateString()</p>
+                    </div>
+
+                    <p class="ms-2">
+
+                        @foreach (var tag in blog.Tags)
+                        {
+                            <span class="badge bg-secondary ms-1 me-1">@tag.Name</span>
+
+                        }
+                    </p>
+
+                    <p class="blog-summary">
+                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Pariatur veniam tempore ipsa quibusdam nulla minima laborum minus magni voluptatum commodi reiciendis, impedit vitae culpa aliquid expedita, dolorum esse dolorem nemo?
+                    </p>
+
+                    <a class="btn ms-2  btn-dark"
+                       asp-action="Index"
+                       asp-controller="Blog"
+                       asp-route-urlHandle="@blog.UrlHandle">Read More</a>
+                </div>
             }
-        </div>
+        }
+
+
+
     </div>
 </div>
