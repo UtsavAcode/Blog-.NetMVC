@@ -10,7 +10,7 @@
 <div class="container py-5">
     @if (Model != null)
     {
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             <div class="form-floating mb-3">
                 <input type="text" class="form-control" id="Id" placeholder="Id" asp-for="Id" readonly>
                 <label for="Id">Id</label>

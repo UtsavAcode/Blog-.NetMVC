@@ -122,6 +122,12 @@ namespace EmployeeMVC.Controllers
         public async Task<IActionResult> Edit(EditBlogPostRequest edit, IFormFile file)
         {
             //Map View Model back to the domain model.
+            var blogPosts = await _blogRepo.GetAsync(edit.Id);
+
+            if(file != null)
+            {
+                _fileHelper.Delete("images", blogPosts.FeaturedImageUrl);
+            }
 
             var blogPost = new BlogPost
             {
@@ -130,7 +136,7 @@ namespace EmployeeMVC.Controllers
                 PageTitle = edit.PageTitle,
                 Content = edit.Content,
                 Author = edit.Author,
-              //  FeaturedImageUrl = _fileHelper.SaveFileAndReturnName("images", file) ?? "",
+                FeaturedImageUrl = _fileHelper.SaveFileAndReturnName("images", file) ?? "",
                 ShortDescription = edit.ShortDescription,
                 PublishedDate = edit.PublishedDate.ToUniversalTime(),
                 UrlHandle = edit.UrlHandle,
@@ -153,11 +159,6 @@ namespace EmployeeMVC.Controllers
             }
 
             blogPost.Tags = selectedTags;
-
-            if(file != null)
-            {
-                blogPost.FeaturedImageUrl = _fileHelper.SaveFileAndReturnName("images", file) ??"";
-            }
 
 
             //Submit Information to the repository to Update.
