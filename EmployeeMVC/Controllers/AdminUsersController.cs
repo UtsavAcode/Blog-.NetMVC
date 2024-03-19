@@ -1,4 +1,5 @@
-﻿using EmployeeMVC.Models.ViewModels;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using EmployeeMVC.Models.ViewModels;
 using EmployeeMVC.Repository.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -11,12 +12,15 @@ namespace EmployeeMVC.Controllers
     {
         private readonly IUserRepository userRepo;
         private readonly UserManager<IdentityUser> userManager;
+        private readonly INotyfService notfy;
 
         public AdminUsersController(IUserRepository userRepo,
-            UserManager<IdentityUser> userManager)
+            UserManager<IdentityUser> userManager,
+            INotyfService notfy)
         {
             this.userRepo = userRepo;
             this.userManager = userManager;
+            this.notfy = notfy;
         }
 
         [HttpGet]
@@ -67,7 +71,7 @@ namespace EmployeeMVC.Controllers
 
                         if (identityResult != null && identityResult.Succeeded)
                         {
-                            //success
+                            notfy.Success("Success", 3);
                         }
                     }
                     return RedirectToAction("List", "AdminUsers");
@@ -91,6 +95,7 @@ namespace EmployeeMVC.Controllers
 
                 if (identityResult != null && identityResult.Succeeded)
                 {
+                    notfy.Success("Delete Successful",3 );
                     return RedirectToAction("List", "AdminUsers");
                 }
             }

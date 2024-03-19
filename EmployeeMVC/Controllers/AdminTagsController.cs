@@ -1,4 +1,5 @@
-﻿using EmployeeMVC.Data;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using EmployeeMVC.Data;
 using EmployeeMVC.Models.Domain;
 using EmployeeMVC.Models.ViewModels;
 using EmployeeMVC.Repository.Interface;
@@ -12,10 +13,12 @@ namespace EmployeeMVC.Controllers
     public class AdminTagsController : Controller
     {
         private readonly ITagRepository tagRepository;
+        private readonly INotyfService notfy;
 
-        public AdminTagsController(ITagRepository tagRepository)
+        public AdminTagsController(ITagRepository tagRepository, INotyfService notfy)
         {
             this.tagRepository = tagRepository;
+            this.notfy = notfy;
         }
 
         
@@ -43,6 +46,7 @@ namespace EmployeeMVC.Controllers
             };
 
             await tagRepository.AddAsync(tag);
+            notfy.Success("Tag Added Successfully", 3);
             return RedirectToAction("List");
         }
 
@@ -92,12 +96,12 @@ namespace EmployeeMVC.Controllers
             var updatedTag = await tagRepository.UpdateAsync(tag);
             if(updatedTag != null)
             {
-                //Display success notification.
+                notfy.Success("Update Successful", 3);   
             }
 
             else
             {
-                //Display the failure notification.
+                notfy.Error("Update Failed", 3);
             }
             return RedirectToAction("Edit", new { id = editTagRequest.Id });
         }

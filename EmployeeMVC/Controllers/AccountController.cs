@@ -71,7 +71,7 @@ namespace EmployeeMVC.Controllers
                         }
                         else
                         {
-                            //error notification
+                            _notfy.Error("Registeration Unsuccessful", 3);
                         }
                     }
                 }
@@ -80,8 +80,6 @@ namespace EmployeeMVC.Controllers
 
             return View();
         }
-
-        //show the error Notification
 
 
         [HttpGet]

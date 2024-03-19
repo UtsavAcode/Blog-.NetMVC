@@ -1,4 +1,5 @@
-﻿using EmployeeMVC.Helper.Interface;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using EmployeeMVC.Helper.Interface;
 using EmployeeMVC.Models.Domain;
 using EmployeeMVC.Models.ViewModels;
 using EmployeeMVC.Repository.Interface;
@@ -15,12 +16,14 @@ namespace EmployeeMVC.Controllers
         private readonly ITagRepository tagRepository;
         private readonly IBlogPostRepository _blogRepo;
         private readonly IFileHelper _fileHelper;
+        private readonly INotyfService notfy;
 
-        public AdminBlogPostsController(ITagRepository tagRepository, IBlogPostRepository blogRepo, IFileHelper fileHelper)
+        public AdminBlogPostsController(ITagRepository tagRepository, IBlogPostRepository blogRepo, IFileHelper fileHelper, INotyfService notfy)
         {
             this.tagRepository = tagRepository;
             _blogRepo = blogRepo;
             _fileHelper = fileHelper;
+            this.notfy = notfy;
         }
 
         [HttpGet]
@@ -68,6 +71,7 @@ namespace EmployeeMVC.Controllers
 
             blogPost.Tags = selectedTags;
             await _blogRepo.AddAsync(blogPost);
+            notfy.Success("Blog Created Successfully", 3);
             return RedirectToAction("Add");
         }
 
@@ -166,13 +170,13 @@ namespace EmployeeMVC.Controllers
             
             if (updatedBlog != null)
             {
-                //Show success notification 
+                notfy.Success("Blog updated successfully", 3);
                 return RedirectToAction("Edit");
             }
 
             else
             {
-                //Failure Notification 
+                notfy.Error("Failed to Update");
                 return RedirectToAction("Edit");
             }
             //Redirect to GET.
