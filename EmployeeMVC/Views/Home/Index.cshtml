@@ -10,62 +10,57 @@
 
 
 
-<div class="view">
-    <div class="container mb-1">
-        <div class="row justify-content-center">
-            <div class="col-6">
-
-                @if (Model != null && Model.Tags.Any())
-                {
-                    foreach (var tag in Model.Tags)
-                    {
-                        <span class="badge bg-dark me-1">
-                            @tag.Name
-                        </span>
-                    }
-                }
-
-            </div>
-        </div>
+<div class="below-content">
+    <div class="sidebar">
+        <ul>
+            <a class="sideoption"><span class="new"><span class="icons"><i class="bi bi-tags"></i></span>Add Tags</span></a>
+            <a class ="sideoption" href=""><span class="new"><span class="icons"><i class="bi bi-journal"></i></span>Add Blogs</span></a>
+            <a class="sideoption"  href=""><span class="new"><span class="icons"><i class="bi bi-person-add"></i></span>Add Users</span></a>
+            <a class="sideoption"  href=""><span class="new"><span class="icons"><i class="bi bi-person-lines-fill"></i></span>All Users</span></a>
+            <a class="sideoption"  href=""><span class="new"><span class="icons"><i class="bi bi-card-checklist"></i></span>All Tags</span></a>
+        </ul>
     </div>
+   
 
-    <div class="page">
+    <div class="mainContent">
+
 
         @if (Model != null && Model.BlogPosts.Any())
         {
             foreach (var blog in Model.BlogPosts)
             {
 
-                <div class="mainPart">
-                    <div class="image-sec">
+                <div class="mainpart">
+                    <div class="image-section">
                         <img src="~/Images/@blog.FeaturedImageUrl" alt="@blog.Heading" />
-
-
                     </div>
 
-                    <h2 class="blog-title">@blog.Heading</h2>
-                    <div class="auth-date">
-                        <p class="ms-1">@blog.Author</p>
-                        <p class="me-3">@blog.PublishedDate.ToShortDateString()</p>
+                    <div class="details-section">
+                        <h2 class="blog-title">@blog.Heading</h2>
+                        <div class="auth">
+                            <p class="ms-1">@blog.Author</p>
+                            <p class="me-3">@blog.PublishedDate.ToShortDateString()</p>
+                        </div>
+
+                        <p >
+
+                            @foreach (var tag in blog.Tags)
+                            {
+                                <span class="badge bg-secondary ms-1 me-1">@tag.Name</span>
+
+                            }
+                        </p>
+
+                        <p class="summary">
+                            @blog.ShortDescription
+                          
+                        </p>
+
+                        <a class="btn ms-2  btn-dark"
+                           asp-action="Index"
+                           asp-controller="Blog"
+                           asp-route-urlHandle="@blog.UrlHandle">Read More</a>
                     </div>
-
-                    <p class="ms-2">
-
-                        @foreach (var tag in blog.Tags)
-                        {
-                            <span class="badge bg-secondary ms-1 me-1">@tag.Name</span>
-
-                        }
-                    </p>
-
-                    <p class="blog-summary">
-                        @blog.ShortDescription
-g                    </p>
-
-                    <a class="btn ms-2  btn-dark"
-                       asp-action="Index"
-                       asp-controller="Blog"
-                       asp-route-urlHandle="@blog.UrlHandle">Read More</a>
                 </div>
             }
         }
@@ -74,3 +69,4 @@ g                    </p>
 
     </div>
 </div>
+
