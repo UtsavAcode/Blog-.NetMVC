@@ -10,7 +10,7 @@
     width: 16rem;
     position: fixed;
     top: 4rem;
-    box-shadow: 5px 10px 8px #888888;
+    border-right: 1px solid gray;
 }
 
     .sidebar ul {
@@ -57,7 +57,8 @@ ul a {
 .heads h1 {
     color: rgb(6, 6, 6);
     margin: 0 0 0 55px;
-    padding: 10px;
+    text-align:center;
+    padding: 0px;
 }
 
 .mainContent {
@@ -158,4 +159,15 @@ button {
 
 .new {
     padding-left: 15px;
+}
+
+.navbar {
+    position: sticky;
+    top: 0;
+    height: 4rem;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(5px);
+    z-index: 10;
+    border-bottom: 1px solid rgb(235, 232, 232);
 }
