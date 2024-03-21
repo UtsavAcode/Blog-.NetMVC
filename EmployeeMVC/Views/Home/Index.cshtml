@@ -1,4 +1,6 @@
 ﻿@model EmployeeMVC.Models.ViewModels.HomeViewModel
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> signinManager
 
 @{
     ViewData["Title"] = "Home Page";
@@ -14,14 +16,41 @@
 <div class="below-content">
     <div class="sidebar">
         <ul>
-            <a class="sideoption"><span class="new"><span class="icons"><i class="bi bi-tags"></i></span>Add Tags</span></a>
-            <a class ="sideoption" href=""><span class="new"><span class="icons"><i class="bi bi-journal"></i></span>Add Blogs</span></a>
-            <a class="sideoption"  href=""><span class="new"><span class="icons"><i class="bi bi-person-add"></i></span>Add Users</span></a>
-            <a class="sideoption"  href=""><span class="new"><span class="icons"><i class="bi bi-person-lines-fill"></i></span>All Users</span></a>
-            <a class="sideoption"  href=""><span class="new"><span class="icons"><i class="bi bi-card-checklist"></i></span>All Tags</span></a>
+            @if (signinManager.IsSignedIn(User) && User.IsInRole("Admin"))
+            {
+                <a class="sideoption" asp-area=""
+                   asp-controller="AdminTags"
+                   asp-action="Add"><span class="new"><span class="icons"><i class="bi bi-tags"></i></span>Add Tags</span></a>
+                <a class="sideoption" asp-controller="AdminTags"
+                   asp-action="List"><span class="new"><span class="icons"><i class="bi bi-card-checklist"></i></span>All Tags</span></a>
+
+                <a class="sideoption" asp-controller="AdminUsers"
+                   asp-action="List"><span class="new"><span class="icons"><i class="bi bi-person-lines-fill"></i></span>All Users</span></a>
+
+                <a class="sideoption" asp-controller="AdminBlogPosts"
+                   asp-action="Add"><span class="new"><span class="icons"><i class="bi bi-journal"></i></span>Add Blogs</span></a>
+
+
+                <a class="sideoption" asp-controller="AdminBlogPosts"
+                   asp-action="List"><span class="new"><span class="icons"><i class="bi bi-person-lines-fill"></i></span>All Blogs</span></a>
+
+            }
+
+
+
+            else
+            {
+                <a class="sideoption" asp-controller="AdminBlogPosts"
+                   asp-action="Add"><span class="new"><span class="icons"><i class="bi bi-journal"></i></span>Add Blogs</span></a>
+
+
+                <a class="sideoption" asp-controller="AdminBlogPosts"
+                   asp-action="List"><span class="new"><span class="icons"><i class="bi bi-person-lines-fill"></i></span>All Blogs</span></a>
+
+            }
         </ul>
     </div>
-   
+
 
     <div class="mainContent">
 
@@ -43,7 +72,7 @@
                             <p class="me-3">@blog.PublishedDate.ToShortDateString()</p>
                         </div>
 
-                        <p >
+                        <p>
 
                             @foreach (var tag in blog.Tags)
                             {
@@ -54,7 +83,7 @@
 
                         <p class="summary">
                             @blog.ShortDescription
-                          
+
                         </p>
 
                         <a class="btn ms-2  btn-dark"

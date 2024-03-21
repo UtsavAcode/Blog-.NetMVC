@@ -58,6 +58,13 @@ ul a {
     color: rgb(6, 6, 6);
     margin: 0 0 0 55px;
     padding: 0px;
+    text-decoration:none;
+
+}
+
+.heads a{
+    text-decoration:none;
+    color:black;
 }
 
 .mainContent {
