@@ -10,7 +10,7 @@
     width: 16rem;
     position: fixed;
     top: 4rem;
-    border-right: 1px solid gray;
+    border-right: 1px solid rgb(235, 232, 232);
 }
 
     .sidebar ul {
@@ -66,7 +66,7 @@ ul a {
     height: auto;
     display: flex;
     flex-direction: column;
-    margin-top: 1rem;
+    margin-top: 4rem;
 }
 
 .mainpart {
@@ -77,12 +77,15 @@ ul a {
     border-radius: 10px;
     height: 20rem;
     background-color: white;
-    border: 1px solid rgb(8, 8, 8);
+    border: 1px solid rgb(235, 232, 232);
     display: flex;
     flex-direction: row;
     /* backdrop-filter: blur(5px); */
 }
 
+    .mainpart:hover {
+        box-shadow: 2px 2px 2px 2px #888888;
+    }
 .image-section {
     width: 20rem;
     border-radius: 10px;
