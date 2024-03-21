@@ -57,7 +57,6 @@ ul a {
 .heads h1 {
     color: rgb(6, 6, 6);
     margin: 0 0 0 55px;
-    text-align:center;
     padding: 0px;
 }
 
@@ -67,6 +66,7 @@ ul a {
     height: auto;
     display: flex;
     flex-direction: column;
+    margin-top: 1rem;
 }
 
 .mainpart {
@@ -161,9 +161,9 @@ button {
     padding-left: 15px;
 }
 
-.navbar {
-    position: sticky;
+.navbars {
     top: 0;
+    position: fixed;
     height: 4rem;
     width: 100%;
     background-color: rgba(255, 255, 255, 0.8);
