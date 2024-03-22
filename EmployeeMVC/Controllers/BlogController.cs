@@ -60,12 +60,16 @@ namespace EmployeeMVC.Controllers
 
                 foreach (var blogComment in blogCommentsDomainModel)
                 {
-                    blogCommentsForView.Add(new BlogComment
+                    var user = await userManager.FindByIdAsync(blogComment.UserId.ToString());
+                    if (user != null)
                     {
-                        Description = blogComment.Description,
-                        DateAdded = blogComment.DateAdded,
-                        UserName = (await userManager.FindByIdAsync(blogComment.UserId.ToString())).UserName,
-                    });
+                        blogCommentsForView.Add(new BlogComment
+                        {
+                            Description = blogComment.Description,
+                            DateAdded = blogComment.DateAdded,
+                            UserName = user.UserName,
+                        });
+                    }
                 }
 
                 blogDetailsViewModel = new BlogDetailsViewModel
