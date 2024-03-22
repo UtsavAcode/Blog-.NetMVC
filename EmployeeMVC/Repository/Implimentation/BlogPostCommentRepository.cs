@@ -20,9 +20,36 @@ namespace EmployeeMVC.Repository.Implimentation
             return blogPostComment;
         }
 
+        public async Task<BlogPostComment?> DeleteAsync(Guid blogPostId)
+        {
+           var existingComment = await context.PostComments.FindAsync(blogPostId);
+            if (existingComment != null)
+            {
+                context.PostComments.Remove(existingComment);
+                await context.SaveChangesAsync();
+                return existingComment;
+            }
+
+            return null;
+        }
+
         public async Task<IEnumerable<BlogPostComment>> GetCommentsByIdAsync(Guid blogPostId)
         {
            return await context.PostComments.Where(x=> x.BlogPostId == blogPostId).ToListAsync();
+        }
+
+        public async Task<BlogPostComment?> UpdateAsync(BlogPostComment blogPostComment)
+        {
+           var existingComment = await  context.PostComments.FirstOrDefaultAsync(x => x.Id == blogPostComment.Id);
+
+            if(existingComment != null)
+            {
+                existingComment.Id = blogPostComment.Id;
+                existingComment.Description = blogPostComment.Description;
+                await context.SaveChangesAsync();
+                return existingComment;
+            }
+            return null;
         }
     }
 }
