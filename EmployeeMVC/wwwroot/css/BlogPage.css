@@ -43,29 +43,28 @@ ul a {
     font-size: 20px;
 }
 
-.sideoption:hover {
-    color: rgb(11, 9, 9);
-    background-color: rgb(185, 183, 183);
-    /* transform: scaleY(1.2); */
-    margin-top: 0;
-    /* transition: trasform 0.19s; */
-    border-radius: 5px;
-    /* font-weight: 600; */
-    /* box-shadow: 5px 10px 8px #888888; */
-}
+    .sideoption:hover {
+        color: rgb(11, 9, 9);
+        background-color: rgb(185, 183, 183);
+        /* transform: scaleY(1.2); */
+        margin-top: 0;
+        /* transition: trasform 0.19s; */
+        border-radius: 5px;
+        /* font-weight: 600; */
+        /* box-shadow: 5px 10px 8px #888888; */
+    }
 
 .heads {
     color: rgb(6, 6, 6);
     margin: 0 0 0 55px;
     padding: 0px;
-    text-decoration:none;
-
+    text-decoration: none;
 }
 
-.heads a{
-    text-decoration:none;
-    color:black;
-}
+    .heads a {
+        text-decoration: none;
+        color: black;
+    }
 
 .mainContent {
     background-color: white;
@@ -93,6 +92,7 @@ ul a {
     .mainpart:hover {
         box-shadow: 2px 2px 2px 2px #888888;
     }
+
 .image-section {
     width: 20rem;
     border-radius: 10px;
@@ -180,4 +180,59 @@ button {
     backdrop-filter: blur(5px);
     z-index: 10;
     border-bottom: 1px solid rgb(235, 232, 232);
+}
+
+
+
+@media only screen and (max-width: 768px) {
+
+    .sidebar {
+        width: 5rem;
+    }
+
+    .new {
+        display: none;
+    }
+
+    .icons {
+        font-size: 30px;
+        padding-left: 10px;
+    }
+
+    .mainpart {
+        margin: 5px 5px 0 90px;
+        display: flex;
+        flex-direction: column;
+        height:25rem;
+        
+    }
+
+        .mainpart .image-section {
+            height: 9rem;
+            width: auto;
+        }
+
+    .details-section {
+        height: 5rem;
+    }
+
+        .details-section h1 {
+            font-size: 12px;
+        }
+
+    .auth, .tags, .summary {
+        font-size: 10px;
+    }
+
+    .details-section {
+        width: auto;
+    }
+
+    .summary {
+        height: 4rem;
+    }
+
+    .mainpart button {
+        margin-top: 9px;
+    }
 }
