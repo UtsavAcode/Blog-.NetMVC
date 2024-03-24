@@ -1,20 +1,20 @@
 ﻿
 body {
-    background: #FCF7ED;
+    background: white;
 }
 .ccc {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100%;
-    width: 100%;
+  /*  height: 100%;
+    width: 100%;*/
    
 }
 
 .containes {
     border-radius: 3%;
-    height: 400px;
-    width: 28%;
+    height:26rem;
+    width: 30%;
     background-color: #0C1821;
     padding: 3rem;
     margin-top: 3rem;
@@ -73,4 +73,27 @@ input {
         margin-left: 2rem;
         margin-right: 0;
         color: whitesmoke;
+    }
+
+
+    @media only screen and (max-width: 768px){
+        body{
+            background-color: white;
+        }
+
+        .containes{
+            width: auto;
+        }
+
+        .containess {
+            width: auto;
+        }
+        .ccc{
+            width: auto;
+        }
+
+        .linkSec{
+            display: flex;
+            align-items:column;
+        }
     }
