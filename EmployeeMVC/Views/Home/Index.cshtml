@@ -18,11 +18,16 @@
         <ul>
             @if (signinManager.IsSignedIn(User) && User.IsInRole("Admin"))
             {
+              
+
+                <a class="sideoption" asp-area=""
+                   asp-controller=""
+                   asp-action=""><span class="icons"> <i class="bi bi-bell-fill"></i></span><span class="new">New Users</span></a>
                 <a class="sideoption" asp-area=""
                    asp-controller="AdminTags"
                    asp-action="Add"><span class="icons"><i class="bi bi-tags"></i></span><span class="new">Add Tags</span></a>
                 <a class="sideoption" asp-controller="AdminTags"
-                   asp-action="List"><span class="new"><span class="icons"><i class="bi bi-card-checklist"></i></span>All Tags</span></a>
+                   asp-action="List"><span class="icons"><i class="bi bi-card-checklist"></i></span><span class="new">All Tags</span></a>
 
                 <a class="sideoption" asp-controller="AdminUsers"
                    asp-action="List"><span class="icons"><i class="bi bi-person-lines-fill"></i></span><span class="new">All Users</span></a>
