@@ -1,23 +1,43 @@
-﻿using EmployeeMVC.Models.Domain;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using EmployeeMVC.Data;
+using EmployeeMVC.Models.Domain;
 using EmployeeMVC.Repository.Interface;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace EmployeeMVC.Repository.Implimentation
 {
     public class Notifications : INotification
     {
-        public Task<Models.Domain.Notifications> AddAsync(string userName)
+        private readonly ApplicationDbContext context;
+
+        public Notifications(ApplicationDbContext context)
         {
-            throw new NotImplementedException();
+            this.context = context;
         }
 
-        public Task<Models.Domain.Notifications?> GetAsync(Guid id)
+     
+
+        public async Task<Models.Domain.Notification> AddAsync(Models.Domain.Notification notification)
         {
-            throw new NotImplementedException();
+            await context.Notifications.AddAsync(notification);
+            await context.SaveChangesAsync();
+            return notification;
         }
 
-        public Task MarkNotificationSeen(Guid id)
+        public async Task<IEnumerable<Models.Domain.Notification>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await context.Notifications.OrderByDescending(n => n.CreatedAt).ToListAsync();
+        }
+
+        public void MarkAsRead(Guid id)
+        {
+            var notification = context.Notifications.Find(id);
+            if (notification != null)
+            {
+                notification.IsSeen = true;
+                context.SaveChanges();
+            }
         }
     }
 }

@@ -1,12 +1,13 @@
 ﻿
+using AspNetCoreHero.ToastNotification.Abstractions;
 using EmployeeMVC.Models.Domain;
 
 namespace EmployeeMVC.Repository.Interface
 {
     public interface INotification
     {
-        Task<Notifications> AddAsync(string userName);
-        Task<Notifications?> GetAsync(Guid id);
-        Task MarkNotificationSeen(Guid id);
+        Task<Models.Domain.Notification> AddAsync(Models.Domain.Notification notification);
+        Task<IEnumerable<Models.Domain.Notification>> GetAllAsync();
+        public void MarkAsRead(Guid id);
     }
 }

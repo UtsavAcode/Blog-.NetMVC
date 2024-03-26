@@ -16,7 +16,7 @@ namespace EmployeeMVC.Data
         public DbSet<Tag> Tags { get; set;}
         public DbSet<BlogPostComment> PostComments { get; set; }
        
-        public DbSet<Notifications> Notifications { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
 
 
 
