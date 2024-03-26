@@ -1,4 +1,5 @@
 ﻿@model EmployeeMVC.Models.ViewModels.HomeViewModel
+
 ﻿@using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> signinManager
 
@@ -21,8 +22,8 @@
               
 
                 <a class="sideoption" asp-area=""
-                   asp-controller=""
-                   asp-action=""><span class="icons"> <i class="bi bi-bell-fill"></i></span><span class="new">New Users</span></a>
+                   asp-controller="Home"
+                   asp-action="Notifications"><span class="icons"> <i class="bi bi-bell-fill"></i></span><span class="new">New Users</span></a>
                 <a class="sideoption" asp-area=""
                    asp-controller="AdminTags"
                    asp-action="Add"><span class="icons"><i class="bi bi-tags"></i></span><span class="new">Add Tags</span></a>
