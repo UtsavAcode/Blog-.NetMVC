@@ -1,6 +1,7 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
 using EmployeeMVC.Data;
 using EmployeeMVC.Models.ViewModels;
+using EmployeeMVC.Repository.Interface;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,17 +14,20 @@ namespace EmployeeMVC.Controllers
         private readonly SignInManager<IdentityUser> signinManager;
         private readonly AuthDbContext _context;
         private readonly INotyfService _notfy;
+        private readonly INotification notification;
 
         public AccountController(UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> siginManager
             , AuthDbContext context,
-            INotyfService notfy
+            INotyfService notfy,
+            INotification notification
             )
         {
             this.userManager = userManager;
             this.signinManager = siginManager;
             this._context = context;
             _notfy = notfy;
+            this.notification = notification;
         }
 
         [HttpGet]
@@ -49,16 +53,6 @@ namespace EmployeeMVC.Controllers
 
                 if (identityResult.Succeeded)
                 {
-                    //assign this user the "User" role
-
-                    /*       var roleIdentityResult = await userManager.AddToRoleAsync(identityUser,"User");
-
-                           if(roleIdentityResult.Succeeded)
-                           {
-                               return RedirectToAction("Register");
-                           }*/
-
-
                     var userRole = await _context.Roles.FirstOrDefaultAsync(r => r.Name == "User");
                     if (userRole != null)
                     {
@@ -66,6 +60,16 @@ namespace EmployeeMVC.Controllers
                         if (roleIdentityResult.Succeeded)
                         {
                             _notfy.Success("Register Success",3);
+
+                            //This is the section for the notifications
+
+                            await notification.AddAsync(new Models.Domain.Notification
+                            {
+                                Message = $"New user registered:{registerViewModel.Username}",
+                                CreatedAt = DateTime.Now.ToUniversalTime(),
+                                IsSeen = false
+                            });
+
                             return RedirectToAction("Login");
                             
                         }
