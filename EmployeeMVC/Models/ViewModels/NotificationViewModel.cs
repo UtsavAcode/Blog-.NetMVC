@@ -6,5 +6,6 @@ namespace EmployeeMVC.Models.ViewModels
     public class NotificationViewModel
     {
       public IEnumerable<Notification> Notifications { get; set; }
+      public int UnreadCount { get; set; }
     }
 }

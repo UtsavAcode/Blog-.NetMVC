@@ -30,6 +30,13 @@ namespace EmployeeMVC.Repository.Implimentation
             return await context.Notifications.OrderByDescending(n => n.CreatedAt).ToListAsync();
         }
 
+
+
+        public int GetUnreadNotificationCount()
+        {
+            return context.Notifications.Count(n => !n.IsSeen);
+        }
+
         public void MarkAsRead(Guid id)
         {
             var notification = context.Notifications.Find(id);

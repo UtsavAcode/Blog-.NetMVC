@@ -19,11 +19,15 @@
         <ul>
             @if (signinManager.IsSignedIn(User) && User.IsInRole("Admin"))
             {
-              
 
+         
                 <a class="sideoption" asp-area=""
                    asp-controller="Home"
-                   asp-action="Notifications"><span class="icons"> <i class="bi bi-bell-fill"></i></span><span class="new">New Users</span></a>
+                   asp-action="Notifications">
+                    <span id="notificaton-count">@Model.UnreadCount</span>
+                   <span class="icons" > <i class="bi bi-bell-fill"></i></span><span class="new">New Users</span>
+                    <span class="unread-count" id="unread-count"></span>
+               </a>
                 <a class="sideoption" asp-area=""
                    asp-controller="AdminTags"
                    asp-action="Add"><span class="icons"><i class="bi bi-tags"></i></span><span class="new">Add Tags</span></a>
@@ -114,3 +118,25 @@
     </div>
 </div>
 
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            function updateNotificationCount() {
+                $.get('/Home/UnreadCount', { timestamp: new Date().getTime() }, function (data) {
+                    $('#notification-count').text(data.count);
+                }).fail(function () {
+                    console.log('Failed to retrieve notification count.');
+                    $('#notification-count').text('Error'); // Display error message
+                });
+            }
+
+            // Update notification count on page load
+            updateNotificationCount();
+
+            // Set up a timer to periodically update the count
+            setInterval(updateNotificationCount, 5000); // Update every 5 seconds
+        });
+
+    </script>
+}

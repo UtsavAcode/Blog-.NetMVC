@@ -1,6 +1,6 @@
-﻿@model EmployeeMVC.Models.ViewModels.NotificationViewModel
+﻿@model EmployeeMVC.Models.ViewModels.HomeViewModel
 
 @foreach(var notification in Model.Notifications){
 
-    <div>@notification.Message-@notification.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")</div>
+    <div class="notification @(notification.IsSeen?"read":"unread")">@notification.Message-@notification.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")</div>
 }

@@ -55,12 +55,17 @@ namespace EmployeeMVC.Controllers
         [HttpGet]
         public async Task<IActionResult> Notifications()
         {
-            var notification = await notify.GetAllAsync();
-            var viewModel = new NotificationViewModel
-            {
-                Notifications = notification
-            };
+            var allNotifications = await notify.GetAllAsync();
+            var unreadCount = allNotifications.Count(n => !n.IsSeen);
+            var viewModel = new HomeViewModel { Notifications = allNotifications, UnreadCount = unreadCount };
             return View(viewModel);
+            
+        }
+
+        public ActionResult UnreadCount()
+        {
+            int unreadCount = notify.GetUnreadNotificationCount();
+            return Json(new { count = unreadCount });
         }
     }
 }
