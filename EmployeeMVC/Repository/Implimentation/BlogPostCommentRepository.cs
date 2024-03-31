@@ -20,22 +20,26 @@ namespace EmployeeMVC.Repository.Implimentation
             return blogPostComment;
         }
 
-        public async Task<BlogPostComment?> DeleteAsync(Guid blogPostId)
+        public async Task<BlogPostComment?> DeleteAsync(Guid Id)
         {
-           var existingComment = await context.PostComments.FindAsync(blogPostId);
-            if (existingComment != null)
+            var comment = await GetByIdAsync(Id);
+            if (comment != null)
             {
-                context.PostComments.Remove(existingComment);
+                context.PostComments.Remove((BlogPostComment)comment);
                 await context.SaveChangesAsync();
-                return existingComment;
             }
 
-            return null;
+            return ((BlogPostComment)comment);
         }
 
-        public async Task<IEnumerable<BlogPostComment>> GetCommentsByIdAsync(Guid blogPostId)
+        public async Task<BlogPostComment> GetByIdAsync(Guid Id)
         {
-           return await context.PostComments.Where(x=> x.BlogPostId == blogPostId).ToListAsync();
+            return await context.PostComments.FirstOrDefaultAsync(comment => comment.Id == Id);
+        }
+
+        public async Task<IEnumerable<BlogPostComment>> GetCommentsByIdAsync(Guid Id)
+        {
+           return await context.PostComments.Where(x=> x.Id == Id).ToListAsync();
         }
 
         public async Task<BlogPostComment?> UpdateAsync(BlogPostComment blogPostComment)

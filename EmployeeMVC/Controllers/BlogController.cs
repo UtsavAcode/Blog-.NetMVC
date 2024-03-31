@@ -66,7 +66,7 @@ namespace EmployeeMVC.Controllers
                         blogCommentsForView.Add(new BlogComment
                         {
                             Description = blogComment.Description,
-                            DateAdded = blogComment.DateAdded,
+                            DateAdded = blogComment.DateAdded, 
                             UserName = user.UserName,
                         });
                     }
@@ -120,15 +120,26 @@ namespace EmployeeMVC.Controllers
         }
 
 
-    
-        public async Task<IActionResult> Delete(EditComment edit)
+        [HttpGet]
+        public async Task<IActionResult> Delete(Guid Id)
         {
-            var deleteComment = await commentRepo.DeleteAsync(edit.Id);
-                return RedirectToAction( "Index", "Blog");
-            
-           
+            var comment = await commentRepo.GetByIdAsync(Id);
+
+            if (comment != null)
+            {
+                var userId = userManager.GetUserId(User);
+                if(comment.UserId != Guid.Parse(userId) && !User.IsInRole("Admin"))
+                {
+                    return Forbid();
+                }
+
+                await commentRepo.DeleteAsync(Id);
+                return RedirectToAction("Index", "Home");
+            }
+            return View();
+
         }
-      
+
 
     }
 }
