@@ -113,6 +113,21 @@ namespace EmployeeMVC.Controllers
             return View();
         }
 
+        [HttpGet]
+        public async Task<IActionResult> EditComment()
+        {
+            return View();
+        }
+
+
+    
+        public async Task<IActionResult> Delete(EditComment edit)
+        {
+            var deleteComment = await commentRepo.DeleteAsync(edit.Id);
+                return RedirectToAction( "Index", "Blog");
+            
+           
+        }
       
 
     }
