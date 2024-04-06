@@ -54,23 +54,7 @@ namespace EmployeeMVC.Controllers
                 }
 
                 //Getting Comments for Blog Post
-                var blogCommentsDomainModel = await commentRepo.GetCommentsByIdAsync(blog.Id);
-
-                var blogCommentsForView = new List<BlogComment>();
-
-                foreach (var blogComment in blogCommentsDomainModel)
-                {
-                    var user = await userManager.FindByIdAsync(blogComment.UserId.ToString());
-                    if (user != null)
-                    {
-                        blogCommentsForView.Add(new BlogComment
-                        {
-                            Description = blogComment.Description,
-                            DateAdded = blogComment.DateAdded, 
-                            UserName = user.UserName,
-                        });
-                    }
-                }
+           
 
                 blogDetailsViewModel = new BlogDetailsViewModel
 
@@ -88,57 +72,13 @@ namespace EmployeeMVC.Controllers
                     Tags = blog.Tags,
                     TotalLikes = totalLikes,
                     Liked = liked,
-                    Comments = blogCommentsForView,
+                
                 };
             }
             return View(blogDetailsViewModel);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Index(BlogDetailsViewModel blogDetailsViewModel)
-        {
-            if (signInManager.IsSignedIn(User))
-            {
-                var domainModel = new BlogPostComment
-                {
-                    BlogPostId = blogDetailsViewModel.Id,
-                    Description = blogDetailsViewModel.CommentDescription,
-                    UserId = Guid.Parse(userManager.GetUserId(User)),
-                    DateAdded = DateTime.Now.ToUniversalTime(),
-                };
-
-                await commentRepo.AddAsync(domainModel);
-                return RedirectToAction("Index", "Blog", new { urlHandle = blogDetailsViewModel.UrlHandle });
-            }
-            return View();
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> EditComment()
-        {
-            return View();
-        }
-
-
-        [HttpGet]
-        public async Task<IActionResult> Delete(Guid Id)
-        {
-            var comment = await commentRepo.GetByIdAsync(Id);
-
-            if (comment != null)
-            {
-                var userId = userManager.GetUserId(User);
-                if(comment.UserId != Guid.Parse(userId) && !User.IsInRole("Admin"))
-                {
-                    return Forbid();
-                }
-
-                await commentRepo.DeleteAsync(Id);
-                return RedirectToAction("Index", "Home");
-            }
-            return View();
-
-        }
+       
 
 
     }

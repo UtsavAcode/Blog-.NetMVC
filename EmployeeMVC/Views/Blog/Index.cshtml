@@ -42,13 +42,13 @@
                     <span id="totalLikes">@Model.TotalLikes</span> likes
                 </div>
 
-@* 
+
                 <div class="mb-3 d-flex">
                     @foreach (var tag in Model.Tags)
                     {
                         <span class="badge bg-secondary me-1">@tag.Name</span>
                     }
-                </div> *@
+                </div>
 
                 <img src="~/Images/@Model.FeaturedImageUrl" class="d-block img-fluid mb-3" />
 
@@ -78,36 +78,7 @@
                         }
                     </div>
 
-                    <div class="card-body">
-                        @if (Model.Comments != null && Model.Comments.Any())
-                        {
-                            @foreach (var comment in Model.Comments)
-                            {
-                                <div class="card mb-3">
-                                    <div class="card-body">
-                                       
-                                        <div class="d-flex justify-content-between p-2">
-                                            <span class="txt-secondary ">@comment.UserName</span>
-                                            <span class="text-secondary mx-auto me-0">@comment.DateAdded.ToShortDateString()</span>
-                                            <span class="ps-2 dropdown" style="cursor: pointer;">
-                                                <i class="bi bi-three-dots pointer" data-bs-toggle="dropdown"></i>
-                                            
-                                                <ul class="dropdown-menu">
-                                                    <li><a class="dropdown-item" asp-controller="Blog" asp-action="EditComment">Edit</a></li>
-                                                    <li><a class="dropdown-item" asp-action="Delete" asp-controller="Blog">Delete</a></li>
-                                                </ul>
-                                            </span>
-                                        </div>
-                                        <div>
-                                            @comment.Description
-                                        </div>
-                                    </div>
-
-
-                                </div>
-                            }
-                        }
-                    </div>
+                    
 
                 </div>
 
