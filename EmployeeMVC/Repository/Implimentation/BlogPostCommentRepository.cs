@@ -13,8 +13,13 @@ namespace EmployeeMVC.Repository.Implimentation
         {
             this.context = context;
         }
-      
 
-    
+        public async Task<BlogPostComment> AddAsync(BlogPostComment blogPostComment)
+        {
+            await context.PostComments.AddAsync(blogPostComment);
+            await context.SaveChangesAsync();
+            return blogPostComment;
+
+        }
     }
 }
