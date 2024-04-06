@@ -14,20 +14,19 @@ namespace EmployeeMVC.Controllers
         private readonly SignInManager<IdentityUser> signinManager;
         private readonly AuthDbContext _context;
         private readonly INotyfService _notfy;
-        private readonly INotification notification;
+      
 
         public AccountController(UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> siginManager
             , AuthDbContext context,
-            INotyfService notfy,
-            INotification notification
+            INotyfService notfy
             )
         {
             this.userManager = userManager;
             this.signinManager = siginManager;
             this._context = context;
             _notfy = notfy;
-            this.notification = notification;
+            
         }
 
         [HttpGet]
@@ -63,12 +62,7 @@ namespace EmployeeMVC.Controllers
 
                             //This is the section for the notifications
 
-                            await notification.AddAsync(new Models.Domain.Notification
-                            {
-                                Message = $"New user registered:{registerViewModel.Username}",
-                                CreatedAt = DateTime.Now.ToUniversalTime(),
-                                IsSeen = false
-                            });
+                           
 
                             return RedirectToAction("Login");
                             

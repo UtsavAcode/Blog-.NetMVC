@@ -11,14 +11,14 @@ namespace EmployeeMVC.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IBlogPostRepository _blog;
         private readonly ITagRepository _tag;
-        private readonly INotification notify;
+       
 
-        public HomeController(ILogger<HomeController> logger, IBlogPostRepository blog, ITagRepository tag, INotification notify)
+        public HomeController(ILogger<HomeController> logger, IBlogPostRepository blog, ITagRepository tag)
         {
             _logger = logger;
             _blog = blog;
             _tag = tag;
-            this.notify = notify;
+           
         }
 
 
@@ -51,21 +51,5 @@ namespace EmployeeMVC.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-
-        [HttpGet]
-        public async Task<IActionResult> Notifications()
-        {
-            var allNotifications = await notify.GetAllAsync();
-            var unreadCount = allNotifications.Count(n => !n.IsSeen);
-            var viewModel = new HomeViewModel { Notifications = allNotifications, UnreadCount = unreadCount };
-            return View(viewModel);
-            
-        }
-
-        public ActionResult UnreadCount()
-        {
-            int unreadCount = notify.GetUnreadNotificationCount();
-            return Json(new { count = unreadCount });
-        }
     }
 }

@@ -54,7 +54,29 @@ namespace EmployeeMVC.Controllers
                 }
 
                 //Getting Comments for Blog Post
+                var blogCommentDomainModel = await commentRepo.GetCommentsByIdAsync(blog.Id);
 
+                var blogCommentsForView = new List<BlogComment>(); 
+
+                foreach (var blogComment in blogCommentDomainModel)
+                {
+                    var user = await userManager.FindByIdAsync(blogComment.UserId.ToString());
+                    if (user != null)
+                    {
+                        blogCommentsForView.Add(new BlogComment
+                        {
+                            Description = blogComment.Description,
+                            DateAdded = blogComment.DateAdded,
+                            Username = user.UserName,
+                        });
+                    }
+                    else
+                    {
+                        // Handle the case where the user is not found
+                        // For example, you could set a default username or skip adding this comment
+                        // blogCommentsForView.Add(new BlogComment { Description = blogComment.Description, DateAdded = blogComment.DateAdded, UserName = "Unknown User" });
+                    }
+                }
 
                 blogDetailsViewModel = new BlogDetailsViewModel
 
@@ -72,7 +94,7 @@ namespace EmployeeMVC.Controllers
                     Tags = blog.Tags,
                     TotalLikes = totalLikes,
                     Liked = liked,
-
+                    Comments = blogCommentsForView
                 };
             }
             return View(blogDetailsViewModel);
@@ -93,11 +115,10 @@ namespace EmployeeMVC.Controllers
                 };
 
                 await commentRepo.AddAsync(domainModel);
-                return RedirectToAction("Index","Home", new {urlHandle = blogDetailsViewModel.UrlHandle});
+                return RedirectToAction("Index", "Home", new { urlHandle = blogDetailsViewModel.UrlHandle });
             }
             return View();
         }
-
 
 
     }

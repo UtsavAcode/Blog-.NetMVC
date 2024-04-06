@@ -21,5 +21,10 @@ namespace EmployeeMVC.Repository.Implimentation
             return blogPostComment;
 
         }
+
+        public async Task<IEnumerable<BlogPostComment>> GetCommentsByIdAsync(Guid blogPostId)
+        {
+            return await context.PostComments.Where(x => x.BlogPostId == blogPostId).ToListAsync();
+        }
     }
 }
