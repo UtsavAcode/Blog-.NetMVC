@@ -115,7 +115,7 @@ namespace EmployeeMVC.Controllers
                 };
 
                 await commentRepo.AddAsync(domainModel);
-                return RedirectToAction("Index", "Home", new { urlHandle = blogDetailsViewModel.UrlHandle });
+                return RedirectToAction("Index", "Blog", new { urlHandle = blogDetailsViewModel.UrlHandle });
             }
             return View();
         }
