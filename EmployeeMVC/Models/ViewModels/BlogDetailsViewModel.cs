@@ -21,6 +21,10 @@ namespace EmployeeMVC.Models.ViewModels
 
         public string CommentDescription { get; set; }
         public IEnumerable<BlogComment> Comments { get; set; }
+
+        public Guid CommentId { get; set; }
+
+        public IEnumerable<EditBlogComment> comment {get; set;}
   
     }
 }

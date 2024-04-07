@@ -7,6 +7,10 @@ namespace EmployeeMVC.Repository.Interface
         Task<BlogPostComment> AddAsync(BlogPostComment blogPostComment);
 
         Task<IEnumerable<BlogPostComment>> GetCommentsByIdAsync(Guid blogPostId);
-       
+
+        Task<BlogPostComment?> GetAsync(Guid Id);
+
+        Task<BlogPostComment?> UpdateAsync(BlogPostComment blogComment);
+
     }
 }

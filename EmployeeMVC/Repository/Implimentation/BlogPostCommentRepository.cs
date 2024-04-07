@@ -22,9 +22,31 @@ namespace EmployeeMVC.Repository.Implimentation
 
         }
 
+        public async Task<BlogPostComment?> GetAsync(Guid Id)
+        {
+            return await context.PostComments.FirstOrDefaultAsync(x => x.Id == Id);
+        }
+
         public async Task<IEnumerable<BlogPostComment>> GetCommentsByIdAsync(Guid blogPostId)
         {
             return await context.PostComments.Where(x => x.BlogPostId == blogPostId).ToListAsync();
+        }
+
+        public async Task<BlogPostComment?> UpdateAsync(BlogPostComment blogComment)
+        {
+            var comment = await context.PostComments.FirstOrDefaultAsync(x => x.Id == blogComment.Id);
+
+            if(comment != null)
+            {
+                comment.Id = blogComment.Id;
+                comment.Description = blogComment.Description;
+                comment.DateAdded = blogComment.DateAdded;
+
+                await context.SaveChangesAsync();
+                return comment;
+            }
+
+            return null;
         }
     }
 }

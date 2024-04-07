@@ -120,6 +120,26 @@ namespace EmployeeMVC.Controllers
             return View();
         }
 
+        [HttpGet]
+        public async Task<IActionResult> EditComment(Guid id)
+        {
+            var comment = await commentRepo.GetAsync(id);
+
+            if(comment != null)
+            {
+                var moodel = new EditBlogComment
+                {
+                    Id = comment.Id,
+                    Description = comment.Description,
+                    DateAdded = comment.DateAdded,
+                };
+
+                return View(moodel);
+            }
+
+            return View(null);
+        }
+
 
     }
 }
