@@ -1,0 +1,27 @@
+﻿
+    .comment-container {
+        position: relative;
+    }
+
+    .comment-edit-popup {
+        position: absolute;
+        background-color: white;
+        border: 1px solid #ccc;
+        padding: 1rem;
+        z-index: 1;
+        display: none;
+    }
+
+        .comment-edit-popup::before {
+            content: "";
+            position: absolute;
+            border-width: 8px;
+            border-style: solid;
+            border-color: transparent transparent #ccc transparent;
+            top: -16px;
+            left: 16px;
+        }
+
+        .comment-edit-popup .popup-content {
+            min-width: 300px;
+        }

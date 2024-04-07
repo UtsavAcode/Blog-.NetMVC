@@ -4,14 +4,15 @@
 @inject UserManager<IdentityUser> userManager
 @{
     ViewData["Title"] = Model.PageTitle;
-
 }
 
+@section Styles {
+    <link rel="stylesheet" href="~/css/Blog.css" />
+}
 
 <div class="container my-5">
     <div class="row justify-content-center">
         <div class="col-12 col-lg-6">
-
             @if (Model != null)
             {
                 <h1 class="mb-3">@Model.Heading</h1>
@@ -23,7 +24,6 @@
                 <div class="mb-3">
                     @if (signinManager.IsSignedIn(User))
                     {
-
                         if (Model.Liked)
                         {
                             <a style="cursor: pointer;">
@@ -36,12 +36,9 @@
                                 <i class="bi bi-heart"></i>
                             </a>
                         }
-
                     }
-
                     <span id="totalLikes">@Model.TotalLikes</span> likes
                 </div>
-
 
                 <div class="mb-3 d-flex">
                     @foreach (var tag in Model.Tags)
@@ -64,7 +61,7 @@
                         {
                             <form method="post">
                                 <div class="mb-3">
-                                    <label class="form-label">Comment Descreption</label>
+                                    <label class="form-label">Comment Description</label>
                                     <input type="text" class="form-control" asp-for="CommentDescription" />
                                 </div>
 
@@ -72,42 +69,51 @@
                                     <button type="submit" class="btn btn-dark">Submit</button>
                                     <input type="hidden" asp-for="Id" />
                                     <input type="hidden" asp-for="UrlHandle" />
-
                                 </div>
                             </form>
                         }
                     </div>
                     <div class="card-body">
-
                         @if (Model.Comments != null && Model.Comments.Any())
                         {
                             @foreach (var comment in Model.Comments)
                             {
-                                <div class="card mb-3">
+                                <div class="card mb-3 comment-container">
+                                    <div class="d-flex justify-content-between">
+                                        <span class="text-secondary ms-2">@comment.Username</span>
+                                        <span class="text-secondary d-flex align-items-center">
+                                            @comment.DateAdded.ToShortDateString()
+                                            <span class="ms-2">
+                                                <a class=" text-secondary text-decoration-none comment-options" data-bs-toggle="dropdown" role="button" style="cursor: pointer;">
+                                                    <i class="bi bi-three-dots me-2"></i>
+                                                </a>
+                                                <ul class="dropdown-menu comment-dropdown">
+                                                    <li><a class="dropdown-item text-decoration-none edit-comment" style="cursor: pointer;">Edit</a></li>
+                                                    <li><a class="dropdown-item text-decoration-none delete-comment" style="cursor: pointer;">Delete</a></li>
+                                                </ul>
+                                            </span>
+                                        </span>
+                                    </div>
                                     <div class="card-body">
                                         <div>
                                             @comment.Description
                                         </div>
-
-                                        <div class="d-flex justify-content-between">
-                                            <span class="text-secondary">@comment.Username</span>
-                                            <span class="text-secondary">@comment.DateAdded.ToShortDateString()</span>
+                                    </div>
+                                    <div class="comment-edit-popup">
+                                        <div class="popup-content">
+                                            <input type="text" class="form-control comment-edit-input" value="@comment.Description" />
+                                            <div class="mt-2">
+                                                <button class="btn btn-primary comment-edit-save">Save</button>
+                                                <button class="btn btn-danger comment-edit-delete">Delete</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-
                             }
                         }
                     </div>
-
-
-
-
-
                 </div>
-
             }
-
             else
             {
                 <p>Blog post not found!</p>
@@ -133,8 +139,6 @@
                 .then(result => totalLikesElement.innerHTML = result);
         }
 
-
-
         async function addLikeForBlog() {
             fetch('/api/BlogPostLike/Add', {
                 method: 'POST',
@@ -146,7 +150,6 @@
                     blogPostId: '@Model.Id',
                     userId: '@userManager.GetUserId(User)'
                 })
-
             })
                 .then(() => {
                     btnLikeElement.innerHTML = '<i class="bi bi-heart-fill"></i>';
@@ -157,7 +160,23 @@
 
         btnLikeElement.addEventListener('click', addLikeForBlog);
 
+        // Comment edit/delete functionality
+        // Comment edit/delete functionality
+        document.addEventListener('click', (event) => {
+            if (event.target.classList.contains('comment-options')) {
+                const commentIndex = event.target.dataset.commentIndex;
+                const popup = document.querySelector(`.comment-edit-popup[data-comment-index="${commentIndex}"]`);
+                const popupRect = popup.getBoundingClientRect();
+                const commentRect = event.target.closest('.comment-container').getBoundingClientRect();
 
+                if (popupRect.bottom > window.innerHeight) {
+                    popup.style.top = `${commentRect.top - popupRect.height - 16}px`;
+                } else {
+                    popup.style.top = `${commentRect.bottom + 16}px`;
+                }
 
+                popup.style.display = 'block';
+            }
+        });
     </script>
 }
