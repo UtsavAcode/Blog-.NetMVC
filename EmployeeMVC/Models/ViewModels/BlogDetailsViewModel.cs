@@ -20,11 +20,10 @@ namespace EmployeeMVC.Models.ViewModels
         public bool Liked { get; set; }
 
         public string CommentDescription { get; set; }
-        public IEnumerable<BlogComment> Comments { get; set; }
+        public ICollection<BlogComment> Comments { get; set; }
 
         public Guid CommentId { get; set; }
-
-        public IEnumerable<EditBlogComment> comment {get; set;}
-  
+       
+        
     }
 }

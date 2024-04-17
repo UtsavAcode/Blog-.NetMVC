@@ -84,32 +84,37 @@
                                         <span class="text-secondary d-flex align-items-center">
                                             @comment.DateAdded.ToShortDateString()
                                             <span class="ms-2">
-                                                <a class=" text-secondary text-decoration-none comment-options" data-bs-toggle="dropdown" role="button" style="cursor: pointer;">
+                                                <a class="text-secondary text-decoration-none comment-options" data-bs-toggle="modal" data-bs-target="#editCommentModal" asp-action="EditComment" asp-controller="Blog" asp-route-id="@comment.Id" style="cursor: pointer;">
                                                     <i class="bi bi-three-dots me-2"></i>
                                                 </a>
-                                                <ul class="dropdown-menu comment-dropdown">
-                                                    <li><a class="dropdown-item text-decoration-none " data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                                           asp-action="EditComment" asp-controller="Blog" asp-route-id="@Model.CommentId" style="cursor: pointer;">Edit</a>
-                                                    </li>
-
-                                                    <li><a class="dropdown-item text-decoration-none delete-comment" style="cursor: pointer;">Delete</a></li>
-                                                </ul>
+                                          
 
                                                 @* //modal section *@
-                                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <!-- Modal for Editing Comment -->
+                                                <!-- Modal for Editing Comment -->
+                                                <div class="modal fade" id="editCommentModal" tabindex="-1" aria-labelledby="editCommentModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h1 class="modal-title fs-5" id="exampleModalLabel">@comment.Username</h1>
+                                                                <h5 class="modal-title" id="editCommentModalLabel">Edit Comment</h5>
                                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                             </div>
-                                                            <div class="modal-body">
-                                                                <input type="text" class="form-control" asp-for="CommentDescription" />
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-warning" >Edit</button>
-                                                                <button type="button" class="btn btn-danger">Delete</button>
-                                                            </div>
+                                                            <form asp-action="EditComment" asp-controller="Blog" method="post">
+                                                                <div class="modal-body">
+                                                                    <div class="mb-3">
+                                                                        <label for="comment" class="form-label">Comment Description</label>
+                                                                        <input type="text" class="form-control"  asp-for="CommentDescription" />
+                                                                    </div>
+                                                                 
+                                                                    <input type="hidden" asp-for="UrlHandle" />
+                                                                    <input type="text" asp-for="Id" />
+                                                                    <input type="text" asp-for="CommentId" />
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                                                </div>
+                                                            </form>
                                                         </div>
                                                     </div>
                                                 </div>

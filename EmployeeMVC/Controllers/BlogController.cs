@@ -127,17 +127,18 @@ namespace EmployeeMVC.Controllers
 
             if(comment != null)
             {
-                var moodel = new EditBlogComment
+                var model = new EditBlogComment
                 {
                     Id = comment.Id,
                     Description = comment.Description,
                     DateAdded = comment.DateAdded,
                 };
 
-                return View(moodel);
+                return View(model);
             }
 
-            return View(null);
+
+            return View( null);
         }
 
 
